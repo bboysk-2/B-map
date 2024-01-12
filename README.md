@@ -1,4 +1,7 @@
 
+![b-map](https://github.com/bboysk-2/B-map/assets/140153753/75de8732-ecab-48ea-adc9-066606b1f886)
+
+## サービス[URL](https://b-map-749a2d979506.herokuapp.com/)
 ## サービス概要
 **ブレイクダンスの練習可能なスポットを共有するサービス**
 
@@ -18,7 +21,7 @@
     「身近にダンスコミュニティがなく、どこで練習したらいいかわからない。仕方なくいつも一人で練習している…」等々
     
     「B-MAP」では、
-    そんな問題に悩む迷えるB-BOY(ブレイクダンサー)達を救済すべく、ユーザ同士がおススメのスポットを共有することで練習場所問題を解決し、
+    そんな問題に悩む迷えるB-BOY(ブレイクダンサー)達を救済すべく、ユーザ同士がおススメの練習スポットを共有することで練習場所問題を解決し、
     練習場所でのダンサー同士のコミュニティの形成を実現します！
 
 </details>
@@ -64,7 +67,9 @@
 ### バックエンド
 - Laravel 9.52.16
 - PHP 8.0.30
-- Google Maps Api
+- Laravel Breeze
+- Google Maps API
+- Google API
 
 ### フロントエンド
 - Vue.js 3.2.41
@@ -75,24 +80,12 @@
 - Heroku(本番)
 
 ## 画面遷移図
-URLは[こちら](https://www.figma.com/file/xmpQV2hp7EkaM1jdLY8d8W/FLOORS?type=design&node-id=0%3A1&mode=design&t=TQQQbFtUOsM9izlH-1)
+URLは[こちら](https://www.figma.com/file/xmpQV2hp7EkaM1jdLY8d8W/B-MAP?type=design&node-id=0%3A1&mode=design&t=TQQQbFtUOsM9izlH-1)
 
 ## ER図
-[![Image from Gyazo](https://i.gyazo.com/c5ef4a7c5a544ab7ecb69a88e422182a.png)](https://gyazo.com/c5ef4a7c5a544ab7ecb69a88e422182a)
+![B-MAP ER 図 ](https://github.com/bboysk-2/B-map/assets/140153753/5541164f-4cbd-4089-9923-178e8a7c0250)
 
-## サイトURL
-URLは[こちら](https://www.mitsuboshi-powder-rooms.com/)
 
-## 開発スケジュール
-企画〜技術調査：6/25〆切<br>
-README〜ER図作成：6/25 〆切<br>
-メイン機能実装：6/25 - 8/30<br>
-β版をRUNTEQ内リリース（MVP）：8/30〆切<br>
-RUNTEQ内リリース（MVP）後、機能実装：10/12　　- 10/23<br>
-本番リリース：10/23
-
-## サイト内で使用している素材
-こちらからお借りしています。
-- [Wartercolor Design Site.](https://watercolor.paintmarks.com/)
-- [農民イラスト](https://nawmin.com)
-- [Loose Drawing](https://loosedrawing.com/)
+## 使用しているアイコン素材のダウンロード元
+- [ICOOON-MONO](https://icooon-mono.com/)
+- [ICONS8](https://icons8.jp/)
