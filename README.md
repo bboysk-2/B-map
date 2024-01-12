@@ -61,11 +61,21 @@
 
 
 ## 使用技術
-- Ruby 3.1.2
-- Rails 6.1.6
+### バックエンド
+- Laravel 9.52.16
+- PHP 8.0.30
+- Google Maps Api
+
+### フロントエンド
+- Vue.js 3.2.41
+- Tailwindcss
+
+### インフラ
+- Docker(開発環境のみ)
+- Heroku(本番)
 
 ## 画面遷移図
-URLは[こちら](https://www.figma.com/file/xYW06Nc9itu7CjivC8X40y/%E4%B8%89%E3%81%A4%E6%98%9F%E3%83%88%E3%82%A4%E3%83%AC?node-id=0%3A1)
+URLは[こちら](https://www.figma.com/file/xmpQV2hp7EkaM1jdLY8d8W/FLOORS?type=design&node-id=0%3A1&mode=design&t=TQQQbFtUOsM9izlH-1)
 
 ## ER図
 [![Image from Gyazo](https://i.gyazo.com/c5ef4a7c5a544ab7ecb69a88e422182a.png)](https://gyazo.com/c5ef4a7c5a544ab7ecb69a88e422182a)
