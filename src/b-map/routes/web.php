@@ -17,11 +17,8 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-});
+    return Inertia::render('Home');
+})->name('home');
 
 Route::get('/policy', function () {
     return Inertia::render('Policy');

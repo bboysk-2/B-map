@@ -12,7 +12,7 @@ function toggleMenu() {
 </script>
 
 <template>
-    <header class="flex justify-between items-center h-16 bg-blue-100 w-full">
+    <header class="flex justify-between items-center h-16 w-full">
         <div class="flex items-center ml-4">
             <ApplicationLogo class="w-40 h-14" />
         </div>
@@ -22,10 +22,10 @@ function toggleMenu() {
     </header>
 
     <!-- メニュー展開時のメニュー領域外 -->
-    <div v-if="isMenuOpen" @click="toggleMenu" class="fixed top-0 left-0 w-full h-full bg-black opacity-50"></div>
+    <div v-if="isMenuOpen" @click="toggleMenu" class="fixed top-0 left-0 w-full h-full z-10 bg-black opacity-50"></div>
 
     <!-- 展開メニュー -->
-    <div :class="{ 'translate-x-full': !isMenuOpen, 'translate-x-0': isMenuOpen }" class="fixed top-0 right-0 h-full w-64 bg-black text-white transform transition-transform duration-300 ease-in-out">
+    <nav :class="{ 'translate-x-full': !isMenuOpen, 'translate-x-0': isMenuOpen }" class="fixed top-0 right-0 z-10 h-full w-64 bg-black text-white transform transition-transform duration-300 ">
         <span @click="toggleMenu" class="text-white text-2xl/[56px] ml-4 cursor-pointer">✖</span>
         
         <Link v-if="!$page.props.auth.user" :href="route('login')" class="flex items-center px-4 py-4">
@@ -52,5 +52,5 @@ function toggleMenu() {
             <img src="/images/male_icon.png" class="w-5 h-5 mr-2" />
             お問い合わせ
         </Link>
-    </div>
+    </nav>
 </template>
