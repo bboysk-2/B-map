@@ -2,6 +2,7 @@
 import { Head, Link } from '@inertiajs/vue3';
 import Header from '@/Components/Header.vue';
 import Blue_button from '@/Components/Button.vue';
+import FooterMenu from '@/Components/FooterMenu.vue';
 
 </script>
 
@@ -21,9 +22,9 @@ import Blue_button from '@/Components/Button.vue';
             </div>         
         </div>
 
-        <div class="w-full h-8 md:h-10 lg:h-12"></div>
+        <div class="w-full h-6 md:h-8 lg:h-10"></div>
 
-        <div>
+        
             <div class="h-full" style="background-image: url('/images/background_image.png');">      
                 <div class="flex container mx-auto px-9 justify-center ">
                     <div class="max-w-md pb-24">
@@ -79,16 +80,11 @@ import Blue_button from '@/Components/Button.vue';
                             </p>
                         </div>    
 
-                        <Blue_button v-if="!$page.props.auth.user">
-                           <Link :href="route('register')">会員登録をしてB-MAPを始める</Link>
+                        <Blue_button v-if="!$page.props.auth.user" class="mt-20">
+                           <Link :href="route('register')">B-MAPを始める</Link>
                         </Blue_button>
                         
-                        <footer class="w-full justify-center">
-                            <div class="flex justify-between text-sm mt-32 mx-4">
-                                <Link :href="route('rules')">利用規約</Link>
-                                <Link :href="route('policy')">プライバシーポリシー</Link>
-                                <Link :href="route('contact')">お問い合わせ</Link>
-                            </div>
+                        <footer class="w-full justify-center mt-24">
                             <div class="w-full border-b-2 border-gray-400 my-4"></div>
                             <div class="flex justify-center text-sm">
                                 <p>© 2024 B-MAP</p>
@@ -97,7 +93,8 @@ import Blue_button from '@/Components/Button.vue';
                     </div>                   
                 </div>       
             </div>
-        </div>  
+        
+        <FooterMenu />
     </body>   
 </template>
 
