@@ -16,6 +16,7 @@ module.exports = {
             },
             height: {
                 'height-60vh': '60vh',
+                'screen-64': 'calc(100vh - 64px)',
             },
             width: {
                 'width-100vw': '100vw',
