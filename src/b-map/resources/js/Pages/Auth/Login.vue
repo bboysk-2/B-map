@@ -1,5 +1,4 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
@@ -28,7 +27,7 @@ const submit = () => {
 
 <template>    
     <Head title="Log in" />
-    
+
     <body>
         <Header />
         <div class="min-h-screen" style="background-image: url('/images/background_image.png');">
@@ -97,8 +96,7 @@ const submit = () => {
                                         こちら
                                     </Link>
                                 </p>
-                            </div>
-                                
+                            </div>                            
                         </div>
                     </form>                                                   
                 </div>
