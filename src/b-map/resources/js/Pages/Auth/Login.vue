@@ -26,7 +26,7 @@ const submit = () => {
 </script>
 
 <template>    
-    <Head title="Log in" />
+    <Head title="Login" />
 
     <body>
         <Header />
@@ -87,7 +87,7 @@ const submit = () => {
                         </Link>
                             
                         <div class="flex flex-col items-center justify-center mt-5">
-                            <BlueButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                            <BlueButton class="my-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                                 ログイン
                             </BlueButton>
                             <div class="mt-6 mb-3">

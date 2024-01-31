@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Auth\SocialLoginController;
+use App\Http\Controllers\MyPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,10 @@ Route::get('/contact', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/mypage', [MyPageController::class, 'index'])
+->middleware(['auth', 'verified'])->name('mypage');
+
 
 Route::get('/auth/{provider}/callback', [SocialLoginController::class, 'providerCallback']);
 Route::get('social-auth/{provider}', [SocialLoginController::class, 'redirectToProvider']);

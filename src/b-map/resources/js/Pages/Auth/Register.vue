@@ -87,7 +87,7 @@ const submit = () => {
                         </div>
             
                         <div class="flex flex-col items-center justify-center mt-5">
-                            <BlueButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                            <BlueButton class="my-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                                 登録する
                             </BlueButton> 
                             <div class="mt-6 mb-3">

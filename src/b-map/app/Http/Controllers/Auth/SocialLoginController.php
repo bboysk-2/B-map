@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\SocialAccount;
 use Laravel\Socialite\Facades\Socialite;
+use Exception;
 
 
 class SocialLoginController extends Controller
@@ -50,6 +51,6 @@ class SocialLoginController extends Controller
         auth()->login($auth_user);
 
         // homeページに転送
-        return redirect()->intended('dashboard');
+        return redirect()->intended('mypage');
     }
 }
