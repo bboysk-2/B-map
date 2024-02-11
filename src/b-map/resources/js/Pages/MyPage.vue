@@ -5,12 +5,16 @@ import FooterMenu from '@/Components/FooterMenu.vue';
 import BlueButton from '@/Components/Button.vue';
 import { ref } from 'vue';
 
+defineProps({
+    avatarPath: String,
+});
+
 const currentTab = ref('favorites');
 
 </script>
 
 <template>
-    <Head title="Mypage" />
+    <Head title="マイページ" />
 
     <body>
         <Header />
@@ -19,15 +23,15 @@ const currentTab = ref('favorites');
             <div class="container mx-auto px-5 mb-10 flex justify-center align-center">
                 <div class="w-full max-w-sm my-24">
                     <div class="flex"> 
-                        <div class="flex items-center justify-center bg-blue-400 rounded-full w-20 h-20 ml-4">
-                            <img src="/images/avator.png">
-                        </div>
-                        <Link :href="route('profile.edit')">
-                            <div class="ml-8">
-                                <p class="text-lg">{{ $page.props.auth.user.name }}さん</p>
-                                <BlueButton class="mt-2 py-1">編集</BlueButton>
-                            </div>  
-                        </Link>   
+                      <div class="w-20 h-20 rounded-full overflow-hidden flex items-center justify-center ml-4">
+                        <img :src="avatarPath" class="object-cover w-full h-full">
+                      </div>
+                      <Link :href="route('profile.edit')">
+                          <div class="ml-8">
+                              <p class="text-lg">{{ $page.props.auth.user.name }}さん</p>
+                              <BlueButton class="mt-2 py-1">編集</BlueButton>
+                          </div>  
+                      </Link>   
                     </div> 
                     
                     <div class="mt-10 mx-5">
@@ -47,37 +51,37 @@ const currentTab = ref('favorites');
                 </div>
             </div>
         </div>
+        <FooterMenu />
     </body>
-
 </template>
 
 <style>
-.tab-titles button {
-  padding: 10px 10px;
-  margin: 0 10px;
-  cursor: pointer;
-  position: relative;
-  width: 50%;
-}
-
-.tab-titles ::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: -3px; 
-  width: 120px; 
-  height: 2px; 
-  background-color: darkgray;
-  transform: translateX(-50%); 
-}
-.tab-titles .active::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: -3px; 
-  width: 120px; 
-  height: 2px; 
-  background-color: deepskyblue;
-  transform: translateX(-50%); 
-}
+    .tab-titles button {
+      padding: 10px 10px;
+      margin: 0 10px;
+      cursor: pointer;
+      position: relative;
+      width: 50%;
+    }
+    
+    .tab-titles ::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -3px; 
+      width: 120px; 
+      height: 2px; 
+      background-color: darkgray;
+      transform: translateX(-50%); 
+    }
+    .tab-titles .active::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -3px; 
+      width: 120px; 
+      height: 2px; 
+      background-color: deepskyblue;
+      transform: translateX(-50%); 
+    }
 </style>

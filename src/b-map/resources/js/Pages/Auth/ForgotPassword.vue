@@ -25,9 +25,12 @@ const submit = () => {
     <Header />
 
     <div class="h-screen-64 flex flex-col justify-center items-center" style="background-image: url('/images/background_image.png');">
-        <div class=" sm:max-w-md mt-6 mx-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">              
+        <div class=" sm:max-w-md mt-6 mx-6 px-6 py-4">              
             <div class="mb-4 text-sm text-gray-600">
-                パスワードをお忘れですか？以下の入力フォームに入力されたメールアドレスにパスワードリセット用の
+                <h2 class="font-bold mb-4">
+                    パスワードをお忘れですか？
+                </h2>
+                以下の入力フォームに入力されたメールアドレスにパスワードリセット用の
                 リンクをお送りします。
             </div>
 
@@ -35,7 +38,7 @@ const submit = () => {
 
             <form @submit.prevent="submit">
                 <div>
-                    <InputLabel for="email" value="Email" />           
+                    <InputLabel for="email" value="メールアドレス" />           
                     <TextInput
                         id="email"
                         type="email"

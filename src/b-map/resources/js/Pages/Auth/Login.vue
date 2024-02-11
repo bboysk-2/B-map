@@ -26,7 +26,7 @@ const submit = () => {
 </script>
 
 <template>    
-    <Head title="Login" />
+    <Head title="ログイン" />
 
     <body>
         <Header />
@@ -101,7 +101,7 @@ const submit = () => {
                     </form>                                                   
                 </div>
             </div>
-            <FooterMenu />
         </div>
+        <FooterMenu />
     </body>
 </template>
