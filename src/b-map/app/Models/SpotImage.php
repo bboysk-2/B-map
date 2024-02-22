@@ -4,16 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
+use App\Models\Spot;
 
-class SocialAccount extends Model
+class SpotImage extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
-        'user_id', 'provider_name', 'provider_id'
+        'spot_id', 'image'
     ];
 
-    public function user()
+    public function spot()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Spot::class);
     }
 }

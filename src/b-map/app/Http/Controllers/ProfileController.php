@@ -57,11 +57,12 @@ class ProfileController extends Controller
         if ($request->hasFile('avatar')) {
             $disk = Storage::disk('s3');
 
+            // 現在のアバターを削除
             if($currentAvatar = $request->user()->avatar){
                $oldFileName = basename($currentAvatar);
                 $disk->delete('avatar/' . $oldFileName);
             }
-
+            // 新しいアバターをアップロード
             $fileName = $disk->putFile('avatar', $request->file('avatar'));
             $url = $disk->url($fileName);
             $request->user()->avatar = $url;
