@@ -156,6 +156,8 @@ return [
     'attributes' => [
         'current_password' => '現在のパスワード',
         'password' => 'パスワード',
+        'spot_name' => 'スポット名',
+        'address' => '住所',
     ],
 
 ];

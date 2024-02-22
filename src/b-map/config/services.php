@@ -37,4 +37,7 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URI'), 
     ],
 
+    'google_geocoding' => [
+        'api_key' => env('GOOGLE_GEOCODING_API_KEY'),
+    ],
 ];
