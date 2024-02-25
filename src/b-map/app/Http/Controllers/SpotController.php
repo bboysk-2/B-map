@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSpotRequest;
 use App\Http\Requests\UpdateSpotRequest;
 use App\Models\Spot;
+use App\Models\SpotImage;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 class SpotController extends Controller
@@ -18,7 +22,11 @@ class SpotController extends Controller
      */
     public function index()
     {
-        //
+        $spots = Spot::with('spotImages')->get(['id', 'name', 'address']);
+        return Inertia::render('Spots/Index', [
+            'spots' => $spots,
+            'message' => session('message'),
+        ]);
     }
 
     /**
@@ -28,7 +36,9 @@ class SpotController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Spots/Create');  
+        return Inertia::render('Spots/Create', [
+            'error' => session('error'),
+        ]);  
     }
 
     /**
@@ -39,10 +49,63 @@ class SpotController extends Controller
      */
     public function store(StoreSpotRequest $request)
     {
-        if ($request->hasFile('spot_images')) {
-            dd($request);
+        // 同じスポット名もしくは住所が既に登録されているかチェック
+        $exists = Spot::where(function ($query) use ($request) {
+            $query->where('name', $request->spot_name)
+                  ->orWhere('address', $request->address);
+        })
+        ->where('user_id', $request->user()->id)
+        ->exists();
+
+        if ($exists) {
+            return redirect()->route('spots.create')->with('error', '同じスポット名もしくは住所が既に登録されています。');
         }
-        
+
+        DB::beginTransaction(); 
+
+        try {
+            $spot = Spot::create([
+                'user_id' => $request->user()->id,
+                'name' => $request->spot_name,
+                'address' => $request->address,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'category' => $request->category,
+                'space' => $request->space,
+                'floor_material' => $request->floor_material,
+                'slipping' => $request->slipping,
+                'usage_fee' => $request->usage_fee,
+                'available_times' => $request->available_times,
+                'volume' => $request->volume,
+                'reservation' => $request->reservation,
+                'remarks' => $request->remarks,
+            ]);
+    
+            $paths = []; // 保存した画像のパスを格納する配列（使う機会なかったら消す）
+    
+            if ($request->hasFile('spot_images')) {
+                $disk = Storage::disk('s3');
+    
+                foreach ($request->file('spot_images') as $image) {
+                    $fileName = $disk->putFile('spot_image', $image);
+                    $url = $disk->url($fileName);
+                    SpotImage::create([
+                        'spot_id' => $spot->id, // SpotとSpotImageモデルインスタンスを関連付ける
+                        'image' => $url,
+                    ]);
+    
+                    $paths[] = $url; // 保存した画像のパスを配列に追加（使う機会なかったら消す） 
+                }
+            }
+    
+            DB::commit(); 
+    
+            return redirect()->route('spots.index')->with('message', 'スポットを投稿しました。');
+        } catch (\Exception $e) {
+            DB::rollBack(); 
+            log::error($e->getMessage());
+            return redirect()->route('spots.create')->with('error', 'スポットの投稿に失敗しました。');
+        }       
     }
 
     /**

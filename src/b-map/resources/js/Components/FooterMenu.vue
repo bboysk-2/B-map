@@ -14,7 +14,7 @@ import { Link } from '@inertiajs/vue3';
                     <img src="/images/footer_search_icon.png" class="w-6 h-6" />
                     <p class="text-xs">探す</p>
                 </Link>
-                <Link :href="route('home')" class="flex flex-col items-center">
+                <Link :href="route('mypage')" class="flex flex-col items-center">
                     <img src="/images/footer_person_icon.png" class="w-6 h-6" />
                     <p class="text-xs">マイページ</p>
                 </Link>
