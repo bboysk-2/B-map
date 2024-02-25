@@ -10,7 +10,7 @@ import BlueButton from '@/Components/Button.vue';
 defineProps({
     mustVerifyEmail: Boolean,
     status: String,
-    erros: Object,
+    errors: Object,
     avatarPath: String,
 });
 

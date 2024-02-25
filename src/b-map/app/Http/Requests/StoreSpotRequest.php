@@ -26,6 +26,8 @@ class StoreSpotRequest extends FormRequest
         return [
             'spot_name' => ['required', 'string', 'max:30'],
             'address' => ['required', 'string', 'max:100'],
+            'latitude' => ['required', 'numeric'],
+            'longitude' => ['required', 'numeric'],
         ];
     }
 }

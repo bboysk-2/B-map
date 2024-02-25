@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\SpotImages;
+use App\Models\SpotImage;
 
 class Spot extends Model
 {
@@ -16,7 +16,7 @@ class Spot extends Model
     ];
 
     public function spotImages() {
-        return $this->hasMany(SpotImages::class);
+        return $this->hasMany(SpotImage::class);
     }
 
     public function user()
