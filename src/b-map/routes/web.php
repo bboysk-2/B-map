@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\MyPageController;
 use App\Http\Controllers\SpotController;
+use App\Http\Controllers\SpotSearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,10 @@ Route::post('/spots/store', [SpotController::class, 'store'])
 ->middleware(['auth', 'verified'])
 ->name('spots.store');
 
+Route::get('/spots/{spot}', [SpotController::class, 'show'])
+->name('spots.show');
+
+Route::get('/search', [SpotSearchController::class, 'search']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])

@@ -3,6 +3,7 @@ import { Head, Link } from '@inertiajs/vue3';
 import Header from '@/Components/Header.vue';
 import FooterMenu from '@/Components/FooterMenu.vue';
 import BlueButton from '@/Components/Button.vue';
+import Layout from '@/Layouts/Layout.vue';
 import { ref } from 'vue';
 
 defineProps({
@@ -16,43 +17,34 @@ const currentTab = ref('favorites');
 <template>
     <Head title="マイページ" />
 
-    <body>
-        <Header />
-
-        <div class="min-h-screen" style="background-image: url('/images/background_image.png');">
-            <div class="container mx-auto px-5 mb-10 flex justify-center align-center">
-                <div class="w-full max-w-sm my-24">
-                    <div class="flex"> 
-                      <div class="w-20 h-20 rounded-full overflow-hidden flex items-center justify-center ml-4">
-                        <img :src="avatarPath" class="object-cover w-full h-full">
-                      </div>
-                      <Link :href="route('profile.edit')">
-                          <div class="ml-8">
-                              <p class="text-lg">{{ $page.props.auth.user.name }}さん</p>
-                              <BlueButton class="mt-2 py-1">編集</BlueButton>
-                          </div>  
-                      </Link>   
-                    </div> 
-                    
-                    <div class="mt-10 mx-5">
-                        <div class="tab-titles flex justify-center">
-                          <button :class="{ active: currentTab === 'favorites' }" @click="currentTab = 'favorites'">お気に入り</button>
-                          <button :class="{ active: currentTab === 'posts' }" @click="currentTab = 'posts'">投稿</button>
-                        </div>
-                        <div class="mt-7">
-                          <div v-if="currentTab === 'favorites'">
-                            <p>お気に入りはありません</p>
-                          </div>
-                          <div v-if="currentTab === 'posts'">
-                            <p>投稿はありません</p>
-                          </div>
-                        </div>
-                    </div>
-                </div>
+    <Layout>
+        <div class="flex"> 
+          <div class="w-20 h-20 rounded-full overflow-hidden flex items-center justify-center ml-4">
+            <img :src="avatarPath" class="object-cover w-full h-full">
+          </div>
+          <Link :href="route('profile.edit')">
+              <div class="ml-8">
+                  <p class="text-lg">{{ $page.props.auth.user.name }}さん</p>
+                  <BlueButton class="mt-2 py-1">編集</BlueButton>
+              </div>  
+          </Link>   
+        </div> 
+        
+        <div class="mt-10 mx-5">
+            <div class="tab-titles flex justify-center">
+              <button :class="{ active: currentTab === 'favorites' }" @click="currentTab = 'favorites'">お気に入り</button>
+              <button :class="{ active: currentTab === 'posts' }" @click="currentTab = 'posts'">投稿</button>
+            </div>
+            <div class="mt-7">
+              <div v-if="currentTab === 'favorites'">
+                <p>お気に入りはありません</p>
+              </div>
+              <div v-if="currentTab === 'posts'">
+                <p>投稿はありません</p>
+              </div>
             </div>
         </div>
-        <FooterMenu />
-    </body>
+    </Layout>
 </template>
 
 <style>

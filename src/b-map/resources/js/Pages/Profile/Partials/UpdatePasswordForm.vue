@@ -85,7 +85,7 @@ const updatePassword = () => {
             </div>
 
             <div class="flex items-center gap-4">
-                <BlueButton :disabled="form.processing">更新する</BlueButton>
+                <BlueButton :disabled="form.processing" class="ml-3">更新する</BlueButton>
 
                 <Transition enter-from-class="opacity-0" leave-to-class="opacity-0" class="transition ease-in-out">
                     <p v-if="form.recentlySuccessful" class=" text-green-500">更新しました</p>

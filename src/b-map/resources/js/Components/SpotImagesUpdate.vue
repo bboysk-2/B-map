@@ -33,7 +33,7 @@ const removeSpotImage = (index) => {
 <template>
     <div class="py-5">
         <div v-if="!previewImages.length" class="flex flex-col items-center justify-center m-auto h-56 w-full bg-gray-200">
-            <img src="/images/camera_icon.png" class="h-32 w-32">
+            <img src="/images/camera_icon.png" class="h-24 w-24">
             <p class="font-bold mt-3">※上限四枚</p>
         </div>
 

@@ -22,10 +22,11 @@ class SpotController extends Controller
      */
     public function index()
     {
-        $spots = Spot::with('spotImages')->get(['id', 'name', 'address']);
+        // Spotモデルのデータをcreated_atの降順（新しいデータが先）で取得
+        $spots = Spot::with('spotImages')->orderBy('created_at', 'desc')->get(['id', 'name', 'address', 'latitude', 'longitude']);
         return Inertia::render('Spots/Index', [
             'spots' => $spots,
-            'message' => session('message'),
+            'success' => session('success'),
         ]);
     }
 
@@ -100,7 +101,7 @@ class SpotController extends Controller
     
             DB::commit(); 
     
-            return redirect()->route('spots.index')->with('message', 'スポットを投稿しました。');
+            return redirect()->route('spots.index')->with('success', 'スポットを投稿しました。');
         } catch (\Exception $e) {
             DB::rollBack(); 
             log::error($e->getMessage());
@@ -116,7 +117,9 @@ class SpotController extends Controller
      */
     public function show(Spot $spot)
     {
-        //
+        return Inertia::render('Spots/Show', [
+            'spot' => $spot,
+        ]);
     }
 
     /**

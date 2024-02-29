@@ -46,8 +46,11 @@ const closeModal = () => {
                 アカウントを削除すると、そのアカウントに関連するデータは完全に消去されます。
             </p>
         </header>
-
-        <DangerButton @click="confirmUserDeletion">削除する</DangerButton>
+        
+        <div class="flex justify-center w-full">
+            <DangerButton @click="confirmUserDeletion">削除する</DangerButton>
+        </div>
+        
 
         <Modal :show="confirmingUserDeletion" @close="closeModal">
             <div class="p-6">

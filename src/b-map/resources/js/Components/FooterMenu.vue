@@ -10,7 +10,7 @@ import { Link } from '@inertiajs/vue3';
                     <img src="/images/footer_home_icon.png" class="w-6 h-6" />
                     <p class="text-xs">ホーム</p>
                 </Link>
-                <Link :href="route('home')" class="flex flex-col items-center">
+                <Link :href="route('spots.index')" class="flex flex-col items-center">
                     <img src="/images/footer_search_icon.png" class="w-6 h-6" />
                     <p class="text-xs">探す</p>
                 </Link>
