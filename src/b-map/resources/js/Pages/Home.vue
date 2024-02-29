@@ -21,8 +21,6 @@ import FooterMenu from '@/Components/FooterMenu.vue';
                 </div>
             </div>         
         </div>
-
-        <div class="w-full h-6 md:h-8 lg:h-10"></div>
                 
         <div class="h-full" style="background-image: url('/images/background_image.png');">      
             <div class="flex container mx-auto px-9 justify-center ">

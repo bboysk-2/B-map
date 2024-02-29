@@ -6,6 +6,7 @@ import { Head, useForm } from '@inertiajs/vue3';
 import Header from '@/Components/Header.vue';
 import BlueButton from '@/Components/Button.vue';
 import FooterMenu from '@/Components/FooterMenu.vue';
+import Layout from '@/Layouts/Layout.vue';
 
 defineProps({
     status: String,
@@ -21,11 +22,10 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Forgot Password" />
-    <Header />
+    <Head title="パスワードリセット" />
 
-    <div class="h-screen-64 flex flex-col justify-center items-center" style="background-image: url('/images/background_image.png');">
-        <div class=" sm:max-w-md mt-6 mx-6 px-6 py-4">              
+    <Layout>
+        <div class="mt-40" >
             <div class="mb-4 text-sm text-gray-600">
                 <h2 class="font-bold mb-4">
                     パスワードをお忘れですか？
@@ -59,8 +59,5 @@ const submit = () => {
                 </div>
             </form>
         </div>
-        <FooterMenu />
-    </div>
-        
-    
+    </Layout>
 </template>
