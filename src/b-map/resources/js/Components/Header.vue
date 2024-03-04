@@ -22,10 +22,10 @@ function toggleMenu() {
     </header>
 
     <!-- メニュー展開時のメニュー領域外 -->
-    <div v-if="isMenuOpen" @click="toggleMenu" class="fixed top-0 left-0 w-full h-full z-10 bg-black opacity-50"></div>
+    <div v-if="isMenuOpen" @click="toggleMenu" class="fixed top-0 left-0 w-full h-full z-20 bg-black opacity-50"></div>
 
     <!-- 展開メニュー -->
-    <nav :class="{ 'translate-x-full': !isMenuOpen, 'translate-x-0': isMenuOpen }" class="fixed top-0 right-0 z-10 h-full w-64 bg-black text-white transform transition-transform duration-300 ">
+    <nav :class="{ 'translate-x-full': !isMenuOpen, 'translate-x-0': isMenuOpen }" class="fixed top-0 right-0 h-full w-64 bg-black text-white transform transition-transform duration-300 z-20">
         <span @click="toggleMenu" class="text-white text-2xl/[56px] ml-4 cursor-pointer">✖</span>
         
         <Link v-if="!$page.props.auth.user" :href="route('login')" class="flex items-center px-4 py-4">
