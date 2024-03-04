@@ -23,7 +23,7 @@ const props = defineProps({
             
             <div class="container mx-auto px-5 mb-10">                
                 <div class="flex justify-center align-center">
-                    <div class="w-full max-w-sm mt-12 mb-24">
+                    <div class="w-full max-w-sm mt-12 mb-16">
                         <slot></slot>
                     </div>
                 </div>

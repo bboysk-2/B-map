@@ -20,4 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:sanctum')->get('/geocode', [GeocodeController::class, 'geocode']);
+Route::get('/geocode', [GeocodeController::class, 'geocode']);
