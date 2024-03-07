@@ -1,9 +1,8 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import TextInput from '@/Components/TextInput.vue';
-import { defineProps, onMounted } from 'vue';
+import { defineProps, onMounted, ref } from 'vue';
 import Layout from '@/Layouts/Layout.vue';
 import SpotCard from '@/Components/SpotCard.vue';
 
@@ -52,7 +51,7 @@ onMounted(async () => {
 
         map.value = new google.maps.Map(document.getElementById('map'), {
         center: tokyo,
-        zoom: 12,
+        zoom: 10,
         disableDefaultUI: true,
         clickableIcons: false,
     });
@@ -147,9 +146,9 @@ const searchLocation = async () => {
 <template>
     <Head title="スポット一覧" />
 
-    <Layout :success="success">
+    <Layout :success="success" v-if="currentPage === 'list'">
         <!-- リスト表示画面 -->
-        <div v-if="currentPage === 'list'">
+        
             <div class="flex flex-col">
                 <button @click="currentPage = 'map'" class="flex items-center w-32 h-9 bg-white ml-4 mb-7 border border-slate-300  rounded-lg">
                     <img src="/images/pin_icon.png">
@@ -175,38 +174,32 @@ const searchLocation = async () => {
                 <!-- 検索時以外（全件表示） -->
                 <SpotCard v-else :spots="spots" />
             </div>            
-        </div>     
-        
-        <!-- マップ表示画面 -->
-        <div v-show="currentPage === 'map'">
-            <div class="flex flex-col">
-                <button @click="currentPage = 'list'" class="flex items-center w-32 h-9 bg-white ml-4 mb-7 border border-slate-300  rounded-lg">
-                    <img src="/images/list_icon.png" class="px-2">
-                    <p>リストで表示</p>
-                </button>
+            
+    </Layout>
 
-                <div class="flex mb-4">
-                    <TextInput v-model="searchWord" type="text" class="ml-1 w-full" placeholder="住所・施設名で検索"/>
-                    <button @click="searchLocation" class="flex justify-center items-center bg-gray-300 w-12 h-12">
-                        <img src="/images/search_spot_icon.png">
+    <!-- マップ表示画面 -->
+    <div v-show="currentPage === 'map'" class="relative">
+            <div class="flex flex-col w-screen absolute z-10">
+                <div class="container mx-auto px-5 max-w-lg">
+                    <button @click="currentPage = 'list'" class="flex items-center w-32 h-9 bg-white ml-4 my-7 border border-slate-300  rounded-lg">
+                        <img src="/images/list_icon.png" class="px-2">
+                        <p>リストで表示</p>
                     </button>
-                </div>
 
-                <div class="mapWrapper relative w-full mt-3">
-                    <div id="map" class="w-full h-full"></div>
-
-                    <button @click="getCurrentLocation" class="absolute top-2 left-2 flex justify-center items-center w-24 h-9 bg-white border border-slate-300 rounded-lg z-10">
-                        <img src="/images/target_icon.png" class="w-6 h-6">
-                        <p class="ml-1">現在地</p>
-                    </button>
+                    <div class="flex mb-4">
+                        <TextInput v-model="searchWord" type="text" class="ml-1 w-full" placeholder="住所・施設名で検索"/>
+                        <button @click="searchLocation" class="flex justify-center items-center bg-gray-300 w-12 h-12">
+                            <img src="/images/search_spot_icon.png">
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </Layout>
-</template>
 
-<style>
-    .mapWrapper {
-        height: 500px;
-    }
-</style>
+            <div id="map" class="w-screen h-screen relative"></div>
+
+            <button @click="getCurrentLocation" class="absolute bottom-6 right-5 flex justify-center items-center w-24 h-9 bg-white border border-slate-300 rounded-lg z-10">
+                <img src="/images/target_icon.png" class="w-6 h-6">
+                <p class="ml-1">現在地</p>
+            </button>
+        </div>
+</template>

@@ -74,9 +74,11 @@ import FooterMenu from '@/Components/FooterMenu.vue';
                             「広さ」や「床の素材」などスポットの詳細情報を項目から設定することもできます。
                         </p>
                     </div>    
-                    <BlueButton v-if="!$page.props.auth.user" class="mt-20">
-                       <Link :href="route('register')">B-MAPを始める</Link>
-                    </BlueButton>
+                    <div v-if="!$page.props.auth.user" class="flex justify-center">
+                        <BlueButton class="mt-12">
+                            <Link :href="route('register')">B-MAPを始める</Link>
+                        </BlueButton>
+                    </div>
                     
                     <footer class="w-full justify-center mt-24">
                         <div class="w-full border-b-2 border-gray-400 my-4"></div>

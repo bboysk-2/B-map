@@ -200,7 +200,9 @@ const handleSubmit = async () => {
             
         <div class="border-t-2 border-gray-400"></div>
             
-        <BlueButton @click="handleSubmit" :disabled="form.processing" class="mt-9">上記の内容で投稿</BlueButton>         
+        <div class="flex justify-center">
+            <BlueButton @click="handleSubmit" :disabled="form.processing" class="mt-9">上記の内容で投稿</BlueButton>
+        </div>         
     </Layout>                
     
 </template>
