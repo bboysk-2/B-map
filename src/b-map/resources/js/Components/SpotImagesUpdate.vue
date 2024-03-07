@@ -43,6 +43,8 @@ const removeSpotImage = (index) => {
             <button @click="removeSpotImage(index)" class="absolute top-0 right-0 bg-gray-100 p-1">✖</button>
         </div>
 
-        <BlueButton @click="triggerFileInput" class="mt-9">画像を追加</BlueButton>
+        <div class="flex justify-center">
+            <BlueButton @click="triggerFileInput" class="mt-9">画像を追加</BlueButton>
+        </div>
     </div>
 </template>

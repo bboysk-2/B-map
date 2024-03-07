@@ -117,6 +117,7 @@ class SpotController extends Controller
      */
     public function show(Spot $spot)
     {
+        $spot->load('spotImages');
         return Inertia::render('Spots/Show', [
             'spot' => $spot,
         ]);
