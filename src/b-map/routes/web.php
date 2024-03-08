@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\MyPageController;
 use App\Http\Controllers\SpotController;
 use App\Http\Controllers\SpotSearchController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,14 +38,16 @@ Route::get('/contact', function () {
 })->name('contact');
 
 
+
 Route::get('/mypage', [MyPageController::class, 'index'])
 ->middleware(['auth', 'verified'])
 ->name('mypage');
 
 
-Route::get('/auth/{provider}/callback', [SocialLoginController::class, 'providerCallback']);
 
+Route::get('/auth/{provider}/callback', [SocialLoginController::class, 'providerCallback']);
 Route::get('social-auth/{provider}', [SocialLoginController::class, 'redirectToProvider']);
+
 
 
 Route::get('/spots/index', [SpotController::class, 'index'])
@@ -61,7 +64,21 @@ Route::post('/spots/store', [SpotController::class, 'store'])
 Route::get('/spots/{spot}', [SpotController::class, 'show'])
 ->name('spots.show');
 
+
+
 Route::get('/search', [SpotSearchController::class, 'search']);
+
+
+
+Route::get('/reviews/create', [ReviewController::class, 'create'])
+->middleware(['auth', 'verified'])
+->name('reviews.create');
+
+Route::post('/reviews/store', [ReviewController::class, 'store'])
+->middleware(['auth', 'verified'])
+->name('reviews.store');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])

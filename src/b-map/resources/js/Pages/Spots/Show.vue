@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm} from '@inertiajs/vue3';
 import BlueButton from '@/Components/Button.vue';
 import { onMounted, ref, defineProps, computed } from 'vue';
 import Layout from '@/Layouts/Layout.vue';
@@ -10,8 +10,14 @@ import dayjs from 'dayjs';
 const props = defineProps({
     errors: Object,
     error: String,
+    success: String,
     spot: Object,
 });
+
+const form = useForm({
+    spot_name: '',
+    spot_id: '',
+}); 
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -19,6 +25,14 @@ const map = ref(null);
 
 const lat = parseFloat(props.spot.latitude);
 const lng = parseFloat(props.spot.longitude);
+
+const redirectToReviewPage = () => {
+    form.spot_name = props.spot.name;
+    form.spot_id = props.spot.id;
+    console.log(form.spot_name);
+    console.log(form.spot_id);
+    form.get(route('reviews.create'));
+};
     
 // スポットの詳細情報が全て空かどうかを判定するcomputedプロパティ
 const isSpotDetailsEmpty = computed(() => {
@@ -87,7 +101,7 @@ function loadGoogleMapsScript(apiKey) {
 <template>
     <Head title="スポット詳細" />
 
-    <Layout>
+    <Layout :success="success">
         <div class="flex items-center">
             <img src="/images/marker_icon.png" class="h-12 w-8 mx-1 pt-4">
             <h1 class="text-xl font-bold pt-4">{{ spot.name }}</h1>
@@ -159,7 +173,7 @@ function loadGoogleMapsScript(apiKey) {
 
         <div class="mx-2">
             <div class="flex mt-2">
-                <BlueButton class="ml-auto">
+                <BlueButton @click="redirectToReviewPage" class="ml-auto">
                     <p>レビューする</p>
                 </BlueButton>
             </div>
