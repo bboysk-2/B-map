@@ -34,7 +34,7 @@ class StoreSpotRequest extends FormRequest
     public function messages()
 {
     return [
-        'address.required' =>'実在する住所を入力してください。',
+        'address.required' =>'適切な住所を入力してください。',
     ];
 }
 }

@@ -82,8 +82,6 @@ class SpotController extends Controller
                 'remarks' => $request->remarks,
             ]);
     
-            $paths = []; // 保存した画像のパスを格納する配列（使う機会なかったら消す）
-    
             if ($request->hasFile('spot_images')) {
                 $disk = Storage::disk('s3');
     
@@ -94,8 +92,6 @@ class SpotController extends Controller
                         'spot_id' => $spot->id, // SpotとSpotImageモデルインスタンスを関連付ける
                         'image' => $url,
                     ]);
-    
-                    $paths[] = $url; // 保存した画像のパスを配列に追加（使う機会なかったら消す） 
                 }
             }
     
@@ -120,6 +116,7 @@ class SpotController extends Controller
         $spot->load('spotImages');
         return Inertia::render('Spots/Show', [
             'spot' => $spot,
+            'success' => session('success'),
         ]);
     }
 

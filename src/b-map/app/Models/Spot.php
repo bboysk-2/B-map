@@ -12,7 +12,20 @@ class Spot extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'name', 'address', 'latitude', 'longitude', 'category', 'floor_material', 'slipping', 'space', 'usage_fee', 'available_times', 'volume', 'reservation', 'remarks'
+        'user_id',
+        'name', 
+        'address', 
+        'latitude', 
+        'longitude', 
+        'category', 
+        'floor_material', 
+        'slipping', 
+        'space', 
+        'usage_fee', 
+        'available_times', 
+        'volume', 
+        'reservation', 
+        'remarks'
     ];
 
     public function spotImages() {
