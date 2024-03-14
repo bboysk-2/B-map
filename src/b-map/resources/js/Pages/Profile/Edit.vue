@@ -3,7 +3,7 @@ import DeleteUserForm from './Partials/DeleteUserForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
 import { Head } from '@inertiajs/vue3';
-import UpdateAvatar from '@/Components/UpdateAvatar.vue';
+import UpdateAvatarForm from '@/Components/UpdateAvatarForm.vue';
 import Layout from '@/Layouts/Layout.vue';
 import { defineProps } from 'vue';
 
@@ -34,7 +34,7 @@ const props = defineProps({
         </div>
 
         <div class="pt-10 pb-5">
-            <UpdateAvatar :status="status" :avatarPath="avatarPath" />
+            <UpdateAvatarForm :status="status" :avatarPath="avatarPath" />
         </div>
         
         <DeleteUserForm class="max-w-xl" />        

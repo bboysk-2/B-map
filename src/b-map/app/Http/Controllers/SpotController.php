@@ -50,16 +50,12 @@ class SpotController extends Controller
      */
     public function store(StoreSpotRequest $request)
     {
-        // 同じスポット名もしくは住所が既に登録されているかチェック
-        $exists = Spot::where(function ($query) use ($request) {
-            $query->where('name', $request->spot_name)
-                  ->orWhere('address', $request->address);
-        })
-        ->where('user_id', $request->user()->id)
-        ->exists();
+        // 同じ住所が既に登録されているかチェック
+        $exists = Spot::where('address', $request->address
+        )->exists();
 
         if ($exists) {
-            return redirect()->route('spots.create')->with('error', '同じスポット名もしくは住所が既に登録されています。');
+            return back()->with('error', '同じ住所が既に登録されています。');
         }
 
         DB::beginTransaction(); 
@@ -101,7 +97,7 @@ class SpotController extends Controller
         } catch (\Exception $e) {
             DB::rollBack(); 
             log::error($e->getMessage());
-            return redirect()->route('spots.create')->with('error', 'スポットの投稿に失敗しました。');
+            return back()->with('error', 'スポットの投稿に失敗しました。');
         }       
     }
 
@@ -114,7 +110,11 @@ class SpotController extends Controller
     public function show(Spot $spot)
     {
         $spot->load('spotImages');
+
+        $reviews = $spot->reviews()->with('user')->paginate(5);
+
         return Inertia::render('Spots/Show', [
+            'reviews' => $reviews,
             'spot' => $spot,
             'success' => session('success'),
         ]);

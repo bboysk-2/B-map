@@ -1,38 +1,35 @@
 <script setup>
-import { Head, useForm} from '@inertiajs/vue3';
-import BlueButton from '@/Components/Button.vue';
+import { Head } from '@inertiajs/vue3';
 import { onMounted, ref, defineProps, computed } from 'vue';
 import Layout from '@/Layouts/Layout.vue';
 import SlideImages from '@/Components/SlideImages.vue';
 import dayjs from 'dayjs';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import ReviewSection from '@/Components/ReviewSection.vue';
+import Pagination from '@/Components/Pagination.vue'
 
 
 const props = defineProps({
     errors: Object,
     error: String,
     success: String,
+    reviews: Object,
     spot: Object,
 });
 
-const form = useForm({
-    spot_name: '',
-    spot_id: '',
-}); 
+const reviewCount = computed(() => props.reviews.data.length);
 
-const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-
-const map = ref(null);
-
-const lat = parseFloat(props.spot.latitude);
-const lng = parseFloat(props.spot.longitude);
-
-const redirectToReviewPage = () => {
-    form.spot_name = props.spot.name;
-    form.spot_id = props.spot.id;
-    console.log(form.spot_name);
-    console.log(form.spot_id);
-    form.get(route('reviews.create'));
-};
+const averageRating = computed(() => {
+    if (!props.reviews.data.length) return 0;
+  
+    const totalRating = props.reviews.data.reduce((acc, review) => acc + review.rating, 0);
+    let avg = totalRating / props.reviews.data.length;
+  
+    // 四捨五入
+    avg = Math.round(avg * 10) / 10;
+  
+    return avg;
+});
     
 // スポットの詳細情報が全て空かどうかを判定するcomputedプロパティ
 const isSpotDetailsEmpty = computed(() => {
@@ -51,6 +48,13 @@ const isSpotDetailsEmpty = computed(() => {
     // details配列の要素が全て空またはnullであるかチェック
     return details.every(detail => !detail);
 });
+
+const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
+const map = ref(null);
+
+const lat = parseFloat(props.spot.latitude);
+const lng = parseFloat(props.spot.longitude);
 
 onMounted(async () => {
     // 緯度経度が取得できない場合早期リターン
@@ -101,17 +105,38 @@ function loadGoogleMapsScript(apiKey) {
 <template>
     <Head title="スポット詳細" />
 
-    <Layout :success="success">
+    <Layout>
         <div class="flex items-center">
             <img src="/images/marker_icon.png" class="h-12 w-8 mx-1 pt-4">
-            <h1 class="text-xl font-bold pt-4">{{ spot.name }}</h1>
-            <div class="ml-auto text-sm">
+            <h1 class="text-xl font-bold pt-4 w-7/12">{{ spot.name }}</h1>
+
+            <div class="ml-auto text-sm min-w-20">
                 <p>最終更新日</p>
                 <p>{{ dayjs(spot.updated_at).format('YYYY/MM/DD') }}</p>
             </div>
         </div>
-        <h3 class="ml-10">レビュー<span class="text-yellow-400 ml-1">★★★★★</span></h3>
 
+        <div class="flex items-center mt-1">
+            <p class="ml-3 mr-1">{{ averageRating }}</p>
+
+            <template v-for="star in 5" :key="star">
+                <FontAwesomeIcon
+                    v-if="star <= Math.floor(averageRating)"
+                    :icon="['fas', 'star']"
+                    style="color: #FFD43B;" />
+                <FontAwesomeIcon
+                    v-else-if="star === Math.ceil(averageRating) && averageRating % 1 !== 0"
+                    :icon="['fas', 'star-half-stroke']"
+                    style="color: #FFD43B;" />
+                <FontAwesomeIcon
+                    v-else
+                    :icon="['fas', 'star']" 
+                    style="color: #a3a3a3;" />
+            </template>
+
+            <p class="ml-1">({{ reviewCount }}件のレビュー)</p>
+        </div>
+        
         <div class="border-t-2 border-gray-400 mt-2 mb-4"></div>
         
         <div class="relative">
@@ -162,6 +187,7 @@ function loadGoogleMapsScript(apiKey) {
             <h2 class="font-bold">住所</h2>
             <p>{{ spot.address }}</p>
         </div>
+
         <div v-if="spot.latitude && spot.longitude" class="h-64 w-hull">
             <div id="map" class="h-full w-full"></div>
         </div>
@@ -171,23 +197,8 @@ function loadGoogleMapsScript(apiKey) {
 
         <div class="border-t-2 border-gray-400 my-4"></div>
 
-        <div class="mx-2">
-            <div class="flex mt-2">
-                <BlueButton @click="redirectToReviewPage" class="ml-auto">
-                    <p>レビューする</p>
-                </BlueButton>
-            </div>
-            <h2 class="font-bold mb-3">直近のレビュー</h2>
-        </div>
-        <div class="bg-white border-2  min-h-24 w-hull p-1 mt-1">
-            <div class="flex items-center">
-                <div class="flex justify-center items-center overflow-hidden rounded-full h-9 w-9 m-1">
-                    <img src="/images/no_avatar.png">
-                </div>
-                <h3>ここにユーザーネーム</h3>
-            </div>
-            <p class="text-yellow-400 ml-2">★★★★★</p>
-            <p class="mx-2">ここにレビュー内容</p>
-        </div>
+        <ReviewSection :success="success" :spot="spot" :reviews="reviews" />
+
+        <Pagination class="mt-6" :links="reviews.links" />
     </Layout>
 </template>

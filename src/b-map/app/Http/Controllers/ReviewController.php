@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreReviewRequest;
 use App\Models\Review;
 use App\Models\Spot;
 use Inertia\Inertia;
@@ -17,15 +18,18 @@ class ReviewController extends Controller
 
         return Inertia::render('Reviews/Create', [
             'spot' => $spot,
+            'error' => session('error'),
         ]);
     }
 
-    public function store(Request $request) {
-        $request->validate([
-            'spot_id' => ['required','exists:spots,id'] , //spots テーブルの id カラムに存在しているか
-            'rating' => ['required','integer','min:1','max:5'],
-            'comment' => ['nullable','string'],
-        ]);
+    public function store(StoreReviewRequest $request) {
+        $exists = Review::where('spot_id', $request->spot_id)
+            ->where('user_id', $request->user()->id)
+            ->exists();
+
+        if ($exists) {
+            return back()->with('error', '既にこのスポットにレビューを投稿しています');
+        }
 
         Review::create([
             'spot_id' => $request->spot_id,
