@@ -16,6 +16,7 @@ const spotImages = computed(() => props.spot.spot_images.length ? props.spot.spo
 const currentImage = computed(() => spotImages.value[currentIndex.value].image);
 
 const hasNext = computed(() => currentIndex.value < spotImages.value.length - 1);
+
 const hasPrevious = computed(() => currentIndex.value > 0);
 
 function nextImage() {

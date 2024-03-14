@@ -26,7 +26,7 @@ const props = defineProps({
                     </div>
         
                     <div class="mx-6">
-                        <p class="text-xl font-bold">{{ spot.name }}</p>
+                        <p class="text-xl font-bold truncate">{{ spot.name }}</p>
                         <p>{{ spot.address }}</p>
                     </div>
                 </div>

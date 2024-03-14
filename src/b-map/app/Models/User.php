@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\SocialAccount;
 use App\Models\Spot;
+use App\Models\Review;
 
 class User extends Authenticatable
 {
@@ -51,5 +52,9 @@ class User extends Authenticatable
 
     public function spots() {
         return $this->hasMany(Spot::class);
+    }
+
+    public function reviews() {
+        return $this->hasMany(Review::class);
     }
 }
