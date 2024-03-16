@@ -6,24 +6,22 @@ import SlideImages from '@/Components/SlideImages.vue';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import ReviewSection from '@/Components/ReviewSection.vue';
-import Pagination from '@/Components/Pagination.vue'
 
 
 const props = defineProps({
     errors: Object,
     error: String,
     success: String,
-    reviews: Object,
     spot: Object,
 });
 
-const reviewCount = computed(() => props.reviews.data.length);
+const reviewCount = computed(() => props.spot.reviews.length);
 
 const averageRating = computed(() => {
-    if (!props.reviews.data.length) return 0;
+    if (!props.spot.reviews.length) return 0;
   
-    const totalRating = props.reviews.data.reduce((acc, review) => acc + review.rating, 0);
-    let avg = totalRating / props.reviews.data.length;
+    const totalRating = props.spot.reviews.reduce((acc, review) => acc + review.rating, 0);
+    let avg = totalRating / props.spot.reviews.length;
   
     // 四捨五入
     avg = Math.round(avg * 10) / 10;
@@ -197,8 +195,6 @@ function loadGoogleMapsScript(apiKey) {
 
         <div class="border-t-2 border-gray-400 my-4"></div>
 
-        <ReviewSection :success="success" :spot="spot" :reviews="reviews" />
-
-        <Pagination class="mt-6" :links="reviews.links" />
+        <ReviewSection :success="success" :spot="spot" />
     </Layout>
 </template>
