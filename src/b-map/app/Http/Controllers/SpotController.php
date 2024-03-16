@@ -109,12 +109,9 @@ class SpotController extends Controller
      */
     public function show(Spot $spot)
     {
-        $spot->load('spotImages');
-
-        $reviews = $spot->reviews()->with('user')->paginate(5);
+        $spot->load('spotImages', 'reviews.user');
 
         return Inertia::render('Spots/Show', [
-            'reviews' => $reviews,
             'spot' => $spot,
             'success' => session('success'),
         ]);
