@@ -95,7 +95,7 @@ const redirectToReviewPage = () => {
             <div class="flex flex-wrap -mb-1">                   
                 <button v-if="currentPage !== 1" class="mr-1 mb-1 px-3 py-2 text-sm leading-4 border border-slate-400 rounded hover:bg-indigo-500"
                 @click="changePage(currentPage - 1)">
-                前
+                &laquo; 前
                 </button>
 
                 <p v-if="currentPage - 1 > 1" class="mb-1 mr-1 pt-3 font-bold ">. . .</p>
@@ -112,7 +112,7 @@ const redirectToReviewPage = () => {
 
                 <button v-if="currentPage < totalPages" class="ml-1 mb-1 px-3 py-2 text-sm leading-4 border border-slate-400 rounded hover:bg-indigo-500"
                 @click="changePage(currentPage + 1)">
-                次
+                次 &raquo;
                 </button>
             </div>
         </div>

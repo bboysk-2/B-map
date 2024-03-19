@@ -10,8 +10,8 @@ class SpotSearchController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->keyword;
-    
-        $spots = Spot::with('spotImages')
+
+        $spots = Spot::with('spotImages', 'reviews')
             ->where('name', 'LIKE', "%{$keyword}%")
             ->orWhere('address', 'LIKE', "%{$keyword}%")
             ->orWhere('category', 'LIKE', "%{$keyword}%")
@@ -24,8 +24,9 @@ class SpotSearchController extends Controller
             ->orWhere('reservation', 'LIKE', "%{$keyword}%")
             ->orWhere('remarks', 'LIKE', "%{$keyword}%")
             ->orderBy('created_at', 'desc')
-            ->get(['id', 'name', 'address']); 
+            ->paginate(10, ['id', 'name', 'address']); 
     
+            $spots->withPath("/search?keyword={$keyword}");
         return response()->json($spots);
     }
 }

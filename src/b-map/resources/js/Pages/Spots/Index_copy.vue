@@ -2,16 +2,14 @@
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import TextInput from '@/Components/TextInput.vue';
-import { defineProps, onMounted, ref, computed } from 'vue';
+import { defineProps, onMounted, ref } from 'vue';
 import Layout from '@/Layouts/Layout.vue';
 import SpotCard from '@/Components/SpotCard.vue';
-import Paginate from '@/Components/Paginate.vue';
-import AsyncPaginate from '@/Components/AsyncPaginate.vue';
+import Paginate from '@/Components/SpotCard.vue';
 
 const props = defineProps({
     success: String,
     spots: Object,
-    allSpots: Object,
 });
 
 const currentPage = ref('list');
@@ -23,13 +21,9 @@ const responseSpots = ref([]);
 
 const searchFlag = ref(false);
 
-const searchURL = computed(() => {
-    return `/search?keyword=${searchWord.value}`;
-});
-
-const searchSpot = async (url) => {
+const searchSpot = async () => {
     try {
-        const response = await axios.get(url);
+        const response = await axios.get('/search', { params: { keyword: searchWord.value } });
         responseSpots.value = response.data;
         searchFlag.value = true;
     } catch (error) {
@@ -58,7 +52,7 @@ onMounted(async () => {
 
         map.value = new google.maps.Map(document.getElementById('map'), {
         center: tokyo,
-        zoom: 12,
+        zoom: 10,
         disableDefaultUI: true,
         clickableIcons: false,
     });
@@ -66,7 +60,7 @@ onMounted(async () => {
         console.error('Google Maps APIの読み込みに失敗しました。', error);
     };
 
-    props.allSpots.forEach(spot => {
+    props.spots.data.forEach(spot => {
         // 緯度経度を数値にキャスト（しないと型の不一致によるエラーが起きる）
         const lat = parseFloat(spot.latitude);
         const lng = parseFloat(spot.longitude);
@@ -171,17 +165,17 @@ const searchLocation = async () => {
                 
                 <div class="flex mb-4">
                     <TextInput id="searchSpot" v-model="searchWord" type="text" class="ml-1 w-full" placeholder="駅・体育館"/>
-                    <button @click="searchSpot(searchURL)" class="flex justify-center items-center bg-gray-300 w-12 h-12">
+                    <button @click="searchSpot" class="flex justify-center items-center bg-gray-300 w-12 h-12">
                         <img src="/images/search_spot_icon.png">
                     </button>
                 </div>
                                    
-                <!-- 通常時（全件表示） -->
-                <SpotCard v-if="!searchFlag" :spots="spots.data" />
-                <Paginate v-if="!searchFlag" :links="spots.links" />
                 <!-- 検索時 -->
-                <SpotCard v-if="searchFlag" :spots="responseSpots.data" />
-                <AsyncPaginate v-if="searchFlag" :links="responseSpots.links" @searchSpot="searchSpot"/>
+                <SpotCard v-if="searchFlag" :spots="responseSpots" />
+                <!-- 検索時以外（全件表示） -->
+                <SpotCard v-else :spots="spots" />
+
+                <Paginate :spots="spots.links" />
             </div>            
             
     </Layout>

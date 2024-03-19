@@ -9,14 +9,14 @@ const props = defineProps({
 });
 
 function reviewCount(index) {
-    return props.spots[index].reviews.length;
+    return props.spots.data[index].reviews.length;
 };
 
 function averageRating(index)  {
-    if (!props.spots[index].reviews.length) return 0;
+    if (!props.spots.data[index].reviews.length) return 0;
   
-    const totalRating = props.spots[index].reviews.reduce((acc, review) => acc + review.rating, 0);
-    let avg = totalRating / props.spots[index].reviews.length;
+    const totalRating = props.spots.data[index].reviews.reduce((acc, review) => acc + review.rating, 0);
+    let avg = totalRating / props.spots.data[index].reviews.length;
   
     // 四捨五入
     avg = Math.round(avg * 10) / 10;
@@ -26,8 +26,8 @@ function averageRating(index)  {
 </script>
 
 <template>
-    <div v-if="props.spots[0]">
-        <div v-for="(spot, index) in spots" :key="spot.id">
+    <div v-if="spots.data[0]">
+        <div v-for="(spot, index) in spots.data" :key="spot.id">
             <Link :href="route('spots.show',{spot:spot.id})"> 
                 <div class="bg-white w-full my-5 mx-auto py-2 border border-slate-300 rounded-lg shadow-3xl">
                     <!-- 画像がない場合 -->

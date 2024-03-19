@@ -22,10 +22,10 @@ class SpotController extends Controller
      */
     public function index()
     {
-        // Spotモデルのデータをcreated_atの降順（新しいデータが先）で取得
-        $spots = Spot::with('spotImages')->orderBy('created_at', 'desc')->get(['id', 'name', 'address', 'latitude', 'longitude']);
+        $paginateSpots = Spot::with('spotImages', 'reviews')->orderBy('created_at', 'desc')->paginate(10, ['id', 'name', 'address', 'latitude', 'longitude']);
         return Inertia::render('Spots/Index', [
-            'spots' => $spots,
+            'allSpots' => Spot::with('spotImages')->get(['id', 'name', 'latitude', 'longitude']), //マップのマーカー描画用
+            'spots' => $paginateSpots,
             'success' => session('success'),
         ]);
     }
