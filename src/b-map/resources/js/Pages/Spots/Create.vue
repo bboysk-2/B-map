@@ -1,7 +1,7 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3';
 import BlueButton from '@/Components/Button.vue';
-import { ref } from 'vue';
+import { ref, defineProps } from 'vue';
 import axios from 'axios';
 import SpotImageUpdate from '@/Components/SpotImagesUpdate.vue';
 import TextInput from '@/Components/TextInput.vue';

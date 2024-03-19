@@ -1,7 +1,6 @@
 <script setup>
 import BlueButton from '@/Components/Button.vue';
-import { ref } from 'vue';
-import { defineEmits } from 'vue';
+import { ref, defineEmits } from 'vue';
 
 const emit = defineEmits(['update-spot-images', 'remove-spot-image']);
 
