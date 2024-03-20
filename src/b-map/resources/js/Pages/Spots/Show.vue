@@ -13,22 +13,9 @@ const props = defineProps({
     error: String,
     success: String,
     spot: Object,
+    userId: Number,
 });
 
-const reviewCount = computed(() => props.spot.reviews.length);
-
-const averageRating = computed(() => {
-    if (!props.spot.reviews.length) return 0;
-  
-    const totalRating = props.spot.reviews.reduce((acc, review) => acc + review.rating, 0);
-    let avg = totalRating / props.spot.reviews.length;
-  
-    // 四捨五入
-    avg = Math.round(avg * 10) / 10;
-  
-    return avg;
-});
-    
 // スポットの詳細情報が全て空かどうかを判定するcomputedプロパティ
 const isSpotDetailsEmpty = computed(() => {
     const details = [
@@ -46,6 +33,65 @@ const isSpotDetailsEmpty = computed(() => {
     // details配列の要素が全て空またはnullであるかチェック
     return details.every(detail => !detail);
 });
+
+// -----------------これより以下レビュー関連の変数・関数-----------------
+
+const reviewCount = computed(() => props.spot.reviews.length);
+
+const averageRating = computed(() => {
+    if (!props.spot.reviews.length) return 0;
+  
+    const totalRating = props.spot.reviews.reduce((acc, review) => acc + review.rating, 0);
+    let avg = totalRating / props.spot.reviews.length;
+  
+    // 四捨五入
+    avg = Math.round(avg * 10) / 10;
+  
+    return avg;
+});
+
+// -----------------これより以下お気に入り関連の変数・関数-----------------
+
+const isFavorited = ref(false);
+// お気に入り多重送信防止用
+const isSubmitting = ref(false);
+
+const fetchFavoriteStatus = async () => {
+    try {
+        const response = await axios.get(`/api/favorite/${props.spot.id}`);
+        isFavorited.value = response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+onMounted(() => {
+    if (props.userId) {
+        fetchFavoriteStatus();
+    }
+})
+
+const toggleFavorite = async () => {
+    try {
+        if (isSubmitting.value) return;
+
+        if (isFavorited.value) {
+            isSubmitting.value = true;
+            await axios.delete(`/api/favorite/delete/${props.spot.id}`);
+            isFavorited.value = false;
+        } else {
+            isSubmitting.value = true;
+            await axios.post(`/api/favorite/add/${props.spot.id}`);
+            isFavorited.value = true;
+        }
+    } catch (error) {
+        console.error(error);
+    } finally {
+        isSubmitting.value = false;
+    }
+};
+    
+// -----------------これより以下Google Maps関連の変数・関数-----------------
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -140,7 +186,10 @@ function loadGoogleMapsScript(apiKey) {
         <div class="relative">
             <SlideImages :spot="spot" />
             <div class="flex justify-center items-center absolute rounded-full bg-white h-7 w-7 bottom-3 left-3">
-                <span class="text-red-400 text-lg">♥</span>
+                <button :disabled="isSubmitting" @click="toggleFavorite" class="mt-1">
+                    <FontAwesomeIcon v-if="isFavorited" :icon="['fas', 'heart']" style="color: #fb6a6a;" />
+                    <FontAwesomeIcon v-else :icon="['far', 'heart']" />
+                </button>
             </div>
         </div>
         

@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\SocialAccount;
 use App\Models\Spot;
 use App\Models\Review;
+use App\Models\Favorite;
 
 class User extends Authenticatable
 {
@@ -56,5 +57,9 @@ class User extends Authenticatable
 
     public function reviews() {
         return $this->hasMany(Review::class);
+    }
+
+    public function favorites() {
+        return $this->hasMany(Favorite::class);
     }
 }

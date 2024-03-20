@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\SpotImage;
 use App\Models\Review;
+use App\Models\Favorite;
 
 class Spot extends Model
 {
@@ -41,5 +42,9 @@ class Spot extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class)->orderBy('created_at', 'desc');
+    }
+
+    public function Favorites() {
+        return $this->hasMany(Fovorite::class);
     }
 }

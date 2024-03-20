@@ -26,7 +26,7 @@ class SpotSearchController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10, ['id', 'name', 'address']); 
     
-            $spots->withPath("/search?keyword={$keyword}");
+            $spots->withPath("/api/search/?keyword={$keyword}");
         return response()->json($spots);
     }
 }
