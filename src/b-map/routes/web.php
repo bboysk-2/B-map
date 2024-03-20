@@ -7,7 +7,6 @@ use Inertia\Inertia;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\MyPageController;
 use App\Http\Controllers\SpotController;
-use App\Http\Controllers\SpotSearchController;
 use App\Http\Controllers\ReviewController;
 
 /*
@@ -63,10 +62,6 @@ Route::post('/spots/store', [SpotController::class, 'store'])
 
 Route::get('/spots/{spot}', [SpotController::class, 'show'])
 ->name('spots.show');
-
-
-
-Route::get('/search', [SpotSearchController::class, 'search']);
 
 
 

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSpotRequest;
 use App\Http\Requests\UpdateSpotRequest;
 use App\Models\Spot;
+use App\Models\User;
 use App\Models\SpotImage;
+use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
@@ -110,9 +112,12 @@ class SpotController extends Controller
     public function show(Spot $spot)
     {
         $spot->load('spotImages', 'reviews.user');
+        // ユーザーがログインしているときユーザIDを取得
+        $userId = auth()->user() ? auth()->user()->id : null;
 
         return Inertia::render('Spots/Show', [
             'spot' => $spot,
+            'userId' => $userId,
             'success' => session('success'),
         ]);
     }
@@ -149,5 +154,28 @@ class SpotController extends Controller
     public function destroy(Spot $spot)
     {
         //
+    }
+    
+    public function addFavorite(Request $request, Spot $spot)
+    {
+        Favorite::create([
+            'user_id' => $request->user()->id,
+            'spot_id' => $spot->id,
+        ]);
+    }
+
+    public function removeFavorite(Request $request, Spot $spot)
+    {
+        Favorite::where('spot_id', $spot->id)
+        ->where('user_id', $request->user()->id)
+        ->delete();
+    }
+
+    public function getFavoriteStatus(Request $request, Spot $spot)
+    {
+        $status = Favorite::where('spot_id', $spot->id)
+        ->where('user_id', $request->user()->id)
+        ->exists();
+        return response()->json($status);
     }
 }

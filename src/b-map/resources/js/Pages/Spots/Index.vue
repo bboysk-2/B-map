@@ -24,7 +24,7 @@ const responseSpots = ref([]);
 const searchFlag = ref(false);
 
 const searchURL = computed(() => {
-    return `/search?keyword=${searchWord.value}`;
+    return `/api/search/?keyword=${searchWord.value}`;
 });
 
 const searchSpot = async (url) => {
