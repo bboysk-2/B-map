@@ -45,6 +45,6 @@ class Spot extends Model
     }
 
     public function Favorites() {
-        return $this->hasMany(Fovorite::class);
+        return $this->hasMany(Favorite::class);
     }
 }

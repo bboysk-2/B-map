@@ -40,4 +40,22 @@ class ReviewController extends Controller
 
         return redirect()->route('spots.show',  $request->spot_id)->with('success', 'レビューを投稿しました');
     }
+
+    public function edit(Request $request, $id) {
+        $review = Review::with('spot')
+        ->where('id', $id)
+        ->where('user_id', $request->user()->id)
+        ->first();
+
+        if (!$review) {
+            return back()->with('error', 'レビューが見つかりません');
+        }
+
+        dd($review);
+
+        return Inertia::render('Reviews/Edit', [
+            'review' => $review,
+            'error' => session('error'),
+        ]);
+    }
 }

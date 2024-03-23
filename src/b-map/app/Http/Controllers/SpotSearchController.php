@@ -27,6 +27,14 @@ class SpotSearchController extends Controller
             ->paginate(10, ['id', 'name', 'address']); 
     
             $spots->withPath("/api/search/?keyword={$keyword}");
+
+            $spots->map(function ($spot) {
+                $spot->isFavorite = $spot->favorites->contains(function ($favorite) {
+                    return $favorite->user_id === auth()->user()->id;
+                });
+                return $spot;
+            });
+            
         return response()->json($spots);
     }
 }

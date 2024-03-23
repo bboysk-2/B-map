@@ -3,9 +3,11 @@ import { Head } from '@inertiajs/vue3';
 import { onMounted, ref, defineProps, computed } from 'vue';
 import Layout from '@/Layouts/Layout.vue';
 import SlideImages from '@/Components/SlideImages.vue';
+import Favorite from '@/Components/Favorite.vue';
+import ReviewSection from '@/Components/ReviewSection.vue';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import ReviewSection from '@/Components/ReviewSection.vue';
+
 
 
 const props = defineProps({
@@ -13,7 +15,6 @@ const props = defineProps({
     error: String,
     success: String,
     spot: Object,
-    userId: Number,
 });
 
 // スポットの詳細情報が全て空かどうかを判定するcomputedプロパティ
@@ -49,47 +50,6 @@ const averageRating = computed(() => {
   
     return avg;
 });
-
-// -----------------これより以下お気に入り関連の変数・関数-----------------
-
-const isFavorited = ref(false);
-// お気に入り多重送信防止用
-const isSubmitting = ref(false);
-
-const fetchFavoriteStatus = async () => {
-    try {
-        const response = await axios.get(`/api/favorite/${props.spot.id}`);
-        isFavorited.value = response.data;
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-onMounted(() => {
-    if (props.userId) {
-        fetchFavoriteStatus();
-    }
-})
-
-const toggleFavorite = async () => {
-    try {
-        if (isSubmitting.value) return;
-
-        if (isFavorited.value) {
-            isSubmitting.value = true;
-            await axios.delete(`/api/favorite/delete/${props.spot.id}`);
-            isFavorited.value = false;
-        } else {
-            isSubmitting.value = true;
-            await axios.post(`/api/favorite/add/${props.spot.id}`);
-            isFavorited.value = true;
-        }
-    } catch (error) {
-        console.error(error);
-    } finally {
-        isSubmitting.value = false;
-    }
-};
     
 // -----------------これより以下Google Maps関連の変数・関数-----------------
 
@@ -149,7 +109,7 @@ function loadGoogleMapsScript(apiKey) {
 <template>
     <Head title="スポット詳細" />
 
-    <Layout>
+    <Layout :error="error">
         <div class="flex items-center">
             <img src="/images/marker_icon.png" class="h-12 w-8 mx-1 pt-4">
             <h1 class="text-xl font-bold pt-4 w-7/12">{{ spot.name }}</h1>
@@ -185,12 +145,7 @@ function loadGoogleMapsScript(apiKey) {
         
         <div class="relative">
             <SlideImages :spot="spot" />
-            <div class="flex justify-center items-center absolute rounded-full bg-white h-7 w-7 bottom-3 left-3">
-                <button :disabled="isSubmitting" @click="toggleFavorite" class="mt-1">
-                    <FontAwesomeIcon v-if="isFavorited" :icon="['fas', 'heart']" style="color: #fb6a6a;" />
-                    <FontAwesomeIcon v-else :icon="['far', 'heart']" />
-                </button>
-            </div>
+            <Favorite v-if="$page.props.auth.user" :spotId="spot.id" :isFavorited="spot.isFavorite" class="absolute bottom-3 left-3" />
         </div>
         
         <div class="border-t-2 border-gray-400  my-4"></div>

@@ -23,9 +23,8 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    Route::post('/favorite/add/{spot}', [SpotController::class, 'addFavorite']);
-    Route::delete('/favorite/delete/{spot}', [SpotController::class, 'removeFavorite']);
-    Route::get('/favorite/{spot}', [SpotController::class, 'getFavoriteStatus']);
+    Route::post('/favorite/{spot}', [SpotController::class, 'addFavorite']);
+    Route::delete('/favorite/{spot}', [SpotController::class, 'removeFavorite']);
 });
 
 

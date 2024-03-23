@@ -49,29 +49,41 @@ Route::get('social-auth/{provider}', [SocialLoginController::class, 'redirectToP
 
 
 
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/spots/create', [SpotController::class, 'create'])
+    ->name('spots.create');
+
+    Route::post('/spots/store', [SpotController::class, 'store'])
+    ->name('spots.store');
+
+    Route::get('/spots/{spot}/edit', [SpotController::class, 'edit'])
+    ->name('spots.edit');
+
+    Route::patch('/spots/{spot}', [SpotController::class, 'update'])
+    ->name('spots.update');
+
+    Route::delete('/spots/{spot}', [SpotController::class, 'destroy'])
+    ->name('spots.destroy');
+});
+
 Route::get('/spots/index', [SpotController::class, 'index'])
 ->name('spots.index');
-
-Route::get('/spots/create', [SpotController::class, 'create'])
-->middleware(['auth', 'verified'])
-->name('spots.create');
-
-Route::post('/spots/store', [SpotController::class, 'store'])
-->middleware(['auth', 'verified'])
-->name('spots.store');
 
 Route::get('/spots/{spot}', [SpotController::class, 'show'])
 ->name('spots.show');
 
 
 
-Route::get('/reviews/create', [ReviewController::class, 'create'])
-->middleware(['auth', 'verified'])
-->name('reviews.create');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/reviews/create', [ReviewController::class, 'create'])
+    ->name('reviews.create');
 
-Route::post('/reviews/store', [ReviewController::class, 'store'])
-->middleware(['auth', 'verified'])
-->name('reviews.store');
+    Route::post('/reviews/store', [ReviewController::class, 'store'])
+    ->name('reviews.store');
+
+    Route::get('/reviews/{review}/edit', [ReviewController::class, 'edit'])
+    ->name('reviews.edit');
+});
 
 
 

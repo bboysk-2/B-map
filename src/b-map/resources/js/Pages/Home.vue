@@ -17,7 +17,7 @@ import FooterMenu from '@/Components/FooterMenu.vue';
             <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center p-4" style="max-width: 580px;">
                 <div>
                     <h1 class="text-white-outline text-black font-bold text-center text-7xl md:text-8xl lg:text-9xl">B-MAP</h1>
-                    <p class="text-white-outline text-black font-bold text-center text-2xl md:text-4xl lg:text-5xl">共有しよう、舞える場所</p>
+                    <p class="text-white-outline text-black font-bold text-center text-2xl md:text-4xl lg:text-5xl">練習場所を身近に</p>
                 </div>
             </div>         
         </div>
