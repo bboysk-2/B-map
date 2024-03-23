@@ -24,7 +24,18 @@ class SpotController extends Controller
      */
     public function index()
     {
-        $paginateSpots = Spot::with('spotImages', 'reviews')->orderBy('created_at', 'desc')->paginate(10, ['id', 'name', 'address', 'latitude', 'longitude']);
+        $paginateSpots = Spot::with('spotImages', 'reviews')->orderBy('created_at', 'desc')
+        ->paginate(10, ['id', 'name', 'address', 'latitude', 'longitude']);
+
+        if (auth()->user()) {
+            $paginateSpots->map(function ($spot) {
+                $spot->isFavorite = $spot->favorites->contains(function ($favorite) {
+                    return $favorite->user_id === auth()->user()->id;
+                });
+                return $spot;
+            });
+        }
+
         return Inertia::render('Spots/Index', [
             'allSpots' => Spot::with('spotImages')->get(['id', 'name', 'latitude', 'longitude']), //マップのマーカー描画用
             'spots' => $paginateSpots,
@@ -112,12 +123,15 @@ class SpotController extends Controller
     public function show(Spot $spot)
     {
         $spot->load('spotImages', 'reviews.user');
-        // ユーザーがログインしているときユーザIDを取得
-        $userId = auth()->user() ? auth()->user()->id : null;
+
+        if (auth()->user()) {
+            $spot->isFavorite = $spot->favorites->contains(function ($favorite) {
+                return $favorite->user_id === auth()->user()->id;
+            });
+        }
 
         return Inertia::render('Spots/Show', [
             'spot' => $spot,
-            'userId' => $userId,
             'success' => session('success'),
         ]);
     }
@@ -128,9 +142,19 @@ class SpotController extends Controller
      * @param  \App\Models\Spot  $spot
      * @return \Illuminate\Http\Response
      */
-    public function edit(Spot $spot)
+    public function edit(Spot $spot, Request $request)
     {
-        //
+        if ($spot->user_id !== $request->user()->id) {
+            return redirect()->route('spots.show', $spot->id)->with('error', '他のユーザーの投稿は編集できません');
+        }
+
+        $spot->load('spotImages');
+
+        dd($spot);
+
+        return Inertia::render('Spots/Edit', [
+            'spot' => $spot,
+        ]);
     }
 
     /**
@@ -169,13 +193,5 @@ class SpotController extends Controller
         Favorite::where('spot_id', $spot->id)
         ->where('user_id', $request->user()->id)
         ->delete();
-    }
-
-    public function getFavoriteStatus(Request $request, Spot $spot)
-    {
-        $status = Favorite::where('spot_id', $spot->id)
-        ->where('user_id', $request->user()->id)
-        ->exists();
-        return response()->json($status);
     }
 }
