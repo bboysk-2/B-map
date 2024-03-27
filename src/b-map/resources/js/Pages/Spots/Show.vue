@@ -9,13 +9,14 @@ import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
-
 const props = defineProps({
     errors: Object,
     error: String,
     success: String,
     spot: Object,
 });
+
+console.log(props.spot.isFavorite);
 
 // スポットの詳細情報が全て空かどうかを判定するcomputedプロパティ
 const isSpotDetailsEmpty = computed(() => {

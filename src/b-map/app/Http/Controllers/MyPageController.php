@@ -18,18 +18,6 @@ class MyPageController extends Controller
         ->orderBy('created_at', 'desc')
         ->get(['id', 'name', 'address']);
 
-        // ログインユーザーがお気に入り登録したスポット
-        $favorites = Spot::with('spotImages', 'reviews')
-        ->whereHas('favorites', function ($query) use ($request) {
-            $query->where('user_id', $request->user()->id);
-        })->get(['id', 'name', 'address']);
-
-        // ログインユーザーが投稿したレビュー
-        $reviews = $request->user()->reviews()
-        ->with('spot')
-        ->orderBy('created_at', 'desc')
-        ->get();
-
         // 投稿したスポットの中でユーザーがお気に入りにしているかどうかを判定するプロパティを追加
         $posts->map(function ($post) use ($request) {
             $post->isFavorite = $post->favorites->contains(function ($favorite) use ($request) {
@@ -38,10 +26,25 @@ class MyPageController extends Controller
             return $post;
         });
 
+        // ログインユーザーがお気に入り登録したスポット
+        $favorites = Spot::select('spots.id', 'spots.name', 'spots.address')
+        ->join('favorites', 'spots.id', '=', 'favorites.spot_id')
+        ->where('favorites.user_id', $request->user()->id)
+        ->orderBy('favorites.created_at', 'desc')
+        ->with('spotImages', 'reviews')
+        ->get();
+
         $favorites->map(function ($favorite) {
             $favorite->isFavorite = true;
             return $favorite;
         });
+
+        // ログインユーザーが投稿したレビュー
+        $reviews = $request->user()->reviews()
+        ->with('spot')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
 
         return Inertia::render('MyPage', [
             'avatarPath' => $avatarPath,

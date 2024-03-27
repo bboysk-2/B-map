@@ -107,7 +107,8 @@ const handleSubmit = async () => {
                 <option value="駅・通路">駅・通路</option>
                 <option value="公園">公園</option>
                 <option value="スタジオ">スタジオ</option>
-                <option value="地域施設">地域施設</option>
+                <option value="公民館">公民館</option>
+                <option value="体育館">体育館</option>
                 <option value="学校">学校</option>
                 <option value="その他">その他</option>
             </select>
