@@ -9,6 +9,8 @@ const props = defineProps({
     spots: Object,
 });
 
+console.log(props.spots);
+
 function reviewCount(index) {
     return props.spots[index].reviews.length;
 };
@@ -24,6 +26,7 @@ function averageRating(index)  {
   
     return avg;
 };
+
 </script>
 
 <template>

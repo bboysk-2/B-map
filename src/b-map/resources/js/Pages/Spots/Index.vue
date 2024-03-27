@@ -2,7 +2,7 @@
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import TextInput from '@/Components/TextInput.vue';
-import { defineProps, onMounted, ref, computed } from 'vue';
+import { defineProps, onMounted, ref, computed, watchEffect } from 'vue';
 import Layout from '@/Layouts/Layout.vue';
 import SpotCard from '@/Components/SpotCard.vue';
 import Paginate from '@/Components/Paginate.vue';
@@ -17,11 +17,17 @@ const props = defineProps({
 const currentPage = ref('list');
 
 // ---------------これより以下ワード検索関連の変数・関数---------------
-const searchWord = ref('');
+const searchWord = ref(sessionStorage.getItem('searchWord') || '');
 
-const responseSpots = ref([]);
+const responseSpots = ref(JSON.parse(sessionStorage.getItem('responseSpots') || '[]'));
 
 const searchFlag = ref(false);
+
+watchEffect(() => {
+    sessionStorage.setItem('searchFlag', searchFlag.value);
+    sessionStorage.setItem('searchWord', searchWord.value);
+    sessionStorage.setItem('responseSpots', JSON.stringify(responseSpots.value));
+});
 
 const searchURL = computed(() => {
     return `/api/search/?keyword=${searchWord.value}`;
@@ -40,6 +46,7 @@ const searchSpot = async (url) => {
 const clearSearch = () => {
     searchFlag.value = false;
     searchWord.value = '';
+    responseSpots.value = [];
 };
 
 // ---------------これより以下マップ関連の変数・関数---------------
@@ -177,10 +184,10 @@ const searchLocation = async () => {
                 </div>
                                    
                 <!-- 通常時（全件表示） -->
-                <SpotCard v-if="!searchFlag" :spots="spots.data" />
+                <SpotCard v-if="!searchFlag" :spots="spots.data" class="content" />
                 <Paginate v-if="!searchFlag" :links="spots.links" />
                 <!-- 検索時 -->
-                <SpotCard v-if="searchFlag" :spots="responseSpots.data" />
+                <SpotCard v-if="searchFlag" :spots="responseSpots.data" class="content" />
                 <AsyncPaginate v-if="searchFlag" :links="responseSpots.links" @searchSpot="searchSpot"/>
             </div>            
             

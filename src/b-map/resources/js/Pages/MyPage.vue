@@ -17,7 +17,7 @@ const props = defineProps({
 
 const currentTab = ref(sessionStorage.getItem('currentTab') || 'posts');
 
-const selectedTabIndex = ref(ref(sessionStorage.getItem('selectedTabIndex') || 0));
+const selectedTabIndex = ref(sessionStorage.getItem('selectedTabIndex') || 0);
 
 watchEffect(() => {
       sessionStorage.setItem('currentTab', currentTab.value);
@@ -136,22 +136,5 @@ const toggleFavorite = async () => {
   height: 2px;
   background-color: blue;
   transition: all 0.5s ease;
-}
-
-.content {
-  animation-name:fadeInAnime;
-  animation-duration:1s;
-  animation-fill-mode:forwards;
-  opacity:0;
-}
-
-@keyframes fadeInAnime{
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
 }
 </style>

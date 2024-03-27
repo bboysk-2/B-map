@@ -67,7 +67,7 @@ const redirectToReviewPage = () => {
             <p>レビューはまだありません。</p>
         </div>
 
-        <div v-for="review in currentReviews" :key="review.id" class="bg-white border-2  min-h-24 w-hull p-1 mt-1">
+        <div v-for="review in currentReviews" :key="review.id" class="bg-white border-2  min-h-24 w-hull p-1 mt-2 rounded-lg shadow-3xl">
             <div class="flex items-center">
                 <div class="flex justify-center items-center overflow-hidden rounded-full h-9 w-9 m-1">
                     <img :src="review.user.avatar ?? '/images/no_avatar.png'">
