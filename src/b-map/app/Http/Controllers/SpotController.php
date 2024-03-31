@@ -133,6 +133,8 @@ class SpotController extends Controller
         return Inertia::render('Spots/Show', [
             'spot' => $spot,
             'success' => session('success'),
+            'error' => session('error'),
+            'successReview' => session('successReview'),
         ]);
     }
 
@@ -150,10 +152,9 @@ class SpotController extends Controller
 
         $spot->load('spotImages');
 
-        dd($spot);
-
         return Inertia::render('Spots/Edit', [
             'spot' => $spot,
+            'error' => session('error'),
         ]);
     }
 
@@ -166,7 +167,67 @@ class SpotController extends Controller
      */
     public function update(UpdateSpotRequest $request, Spot $spot)
     {
-        //
+        if ($spot->address !== $request->address) {
+            $exists = Spot::where('address', $request->address
+        )->exists();
+
+        if ($exists) {
+            return back()->with('error', '同じ住所が既に登録されています。');
+        }
+        }
+
+        DB::beginTransaction(); 
+
+        if ($request->deleted_images) {
+            $disk = Storage::disk('s3');
+
+            foreach ($request->deleted_images as $deletedImage) {
+                SpotImage::where('id', $deletedImage["id"])->delete();
+                $currentFileName = basename($deletedImage["image"]);
+                $disk->delete('spot_image/' . $currentFileName);
+            }
+        }
+
+        if ($request->hasFile('spot_images')) {
+            if (!$request->deleted_images) {
+                $disk = Storage::disk('s3');
+            }
+
+            foreach ($request->file('spot_images') as $image) {
+                $fileName = $disk->putFile('spot_image', $image);
+                $url = $disk->url($fileName);
+                SpotImage::create([
+                    'spot_id' => $spot->id, 
+                    'image' => $url,
+                ]);
+            }
+        }
+
+        try {
+            $spot->update([
+                'name' => $request->spot_name,
+                'address' => $request->address,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'category' => $request->category,
+                'space' => $request->space,
+                'floor_material' => $request->floor_material,
+                'slipping' => $request->slipping,
+                'usage_fee' => $request->usage_fee,
+                'available_times' => $request->available_times,
+                'volume' => $request->volume,
+                'reservation' => $request->reservation,
+                'remarks' => $request->remarks,
+            ]);
+    
+            DB::commit(); 
+    
+            return redirect()->route('spots.show', $spot->id)->with('success', 'スポットを更新しました。');
+        } catch (\Exception $e) {
+            DB::rollBack(); 
+            log::error($e->getMessage());
+            return back()->with('error', 'スポットの更新に失敗しました。');
+        }       
     }
 
     /**

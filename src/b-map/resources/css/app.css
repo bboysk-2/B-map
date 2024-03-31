@@ -13,6 +13,12 @@ body {
     animation-fill-mode:forwards;
     opacity:0;
   }
+
+  .zoomIn {
+    animation-name:zoomInAnime;
+    animation-duration:0.2s;
+    animation-fill-mode:forwards;
+  }
   
   @keyframes fadeInAnime{
     from {
@@ -21,5 +27,15 @@ body {
   
     to {
       opacity: 1;
+    }
+  }
+
+  @keyframes zoomInAnime {
+    from {
+      transform: scale(0);
+    }
+
+    to {
+      transform: scale(1);
     }
   }

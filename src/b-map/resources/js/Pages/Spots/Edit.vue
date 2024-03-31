@@ -7,38 +7,55 @@ import SpotImageUpdate from '@/Components/SpotImagesUpdate.vue';
 import TextInput from '@/Components/TextInput.vue';
 import Layout from '@/Layouts/Layout.vue';
 
-defineProps({
+const props = defineProps({
     errors: Object,
     error: String,
+    spot: Object,
 });
 
 
 const form = useForm({
+    // patch,putメソッドでファイルの送信ができないため、methodフィールドを疑似的にpatchにする
+    _method: 'patch',
     spot_images: [],
-    spot_name: '',
-    address: '',
-    latitude: '',
-    longitude: '',
-    category: '',
-    space: '',
-    floor_material: '',
-    slipping: '',
-    usage_fee: '',
-    available_times: '',
-    volume: '',
-    reservation: '',
-    remarks: '',
+    deleted_images: [],
+    spot_name: props.spot.name,
+    address: props.spot.address,
+    latitude: props.spot.latitude,
+    longitude: props.spot.longitude,
+    category: props.spot.category,
+    space: props.spot.space,
+    floor_material: props.spot.floor_material,
+    slipping: props.spot.slipping,
+    usage_fee: props.spot.usage_fee,
+    available_times: props.spot.available_times,
+    volume: props.spot.volume,
+    reservation: props.spot.reservation,
+    remarks: props.spot.remarks,
 });
+
+// 子コンポーネントに渡してプレビュー表示する用
+const currentImages = [];
+
+props.spot.spot_images.forEach(spot => {
+    currentImages.push(spot.image);
+    form.spot_images.push(spot);
+});
+
 
 const addFormImages = (event) => {
     const files = Array.from(event.target.files).slice(0, 4 - form.spot_images.length);
     files.forEach(file => {
         form.spot_images.push(file);
-        console.log(form.spot_images);
     });
 };
 
 const removeFormImage = (index) => {
+    // 画像が既存のものか新規追加のものかを判別し、削除する画像をdeleted_imagesに追加
+    if (form.spot_images[index].id) {
+        form.deleted_images.push(form.spot_images[index]);
+    }
+
     form.spot_images.splice(index, 1);
 };
 
@@ -60,12 +77,13 @@ const handleSubmit = async () => {
   } catch {
     form.address = ''; // エラー時、サーバー側のバリデーションに引っかけるため空にする
   }
-  form.post(route('spots.store'));
+//　patch,putメソッドでファイルの送信ができないため、便宜上postメソッドを使用（上でmethodフィールドをpatchにしているためpatchとして扱われる）
+  form.post(route('spots.update', {spot:props.spot.id}));
 };
 </script>
 
 <template>
-    <Head title="スポット投稿" />
+    <Head title="スポット編集" />
 
     <Layout :error="error">
         <h1 class="text-xl font-extrabold pl-4">スポット情報</h1>
@@ -196,12 +214,12 @@ const handleSubmit = async () => {
         </div>
         <div class="border-t-2 border-gray-400 mt-7"></div>
         <h3 class="text-lg font-semibold mt-5">スポット画像</h3>
-        <SpotImageUpdate @update-spot-images="addFormImages" @remove-spot-image="removeFormImage" class="mb-4"/>
+        <SpotImageUpdate :spotImages="currentImages" @update-spot-images="addFormImages" @remove-spot-image="removeFormImage" class="mb-4"/>
             
         <div class="border-t-2 border-gray-400"></div>
             
         <div class="flex justify-center">
-            <BlueButton @click="handleSubmit" :disabled="form.processing" class="mt-9">上記の内容で投稿</BlueButton>
+            <BlueButton @click="handleSubmit" :disabled="form.processing" class="mt-9">上記の内容で更新</BlueButton>
         </div>         
     </Layout>                
     
