@@ -38,7 +38,7 @@ class ReviewController extends Controller
             'comment' => $request->comment,
         ]);
 
-        return redirect()->route('spots.show',  $request->spot_id)->with('success', 'レビューを投稿しました');
+        return redirect()->route('spots.show',  $request->spot_id)->with('successReview', 'レビューを投稿しました');
     }
 
     public function edit(Request $request, $id) {

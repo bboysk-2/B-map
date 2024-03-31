@@ -13,7 +13,7 @@ class UpdateSpotRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,17 @@ class UpdateSpotRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'spot_name' => ['required', 'string', 'max:30'],
+            'address' => ['required', 'string', 'max:100'],
+            'latitude' => ['required', 'numeric'],
+            'longitude' => ['required', 'numeric'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'address.required' =>'適切な住所を入力してください。',
         ];
     }
 }

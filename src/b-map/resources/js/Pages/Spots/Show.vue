@@ -11,12 +11,11 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 const props = defineProps({
     errors: Object,
-    error: String,
     success: String,
+    error: String,
     spot: Object,
+    successReview: String,
 });
-
-console.log(props.spot.isFavorite);
 
 // スポットの詳細情報が全て空かどうかを判定するcomputedプロパティ
 const isSpotDetailsEmpty = computed(() => {
@@ -110,7 +109,7 @@ function loadGoogleMapsScript(apiKey) {
 <template>
     <Head title="スポット詳細" />
 
-    <Layout :error="error">
+    <Layout :success="success" :error="error">
         <div class="flex items-center">
             <img src="/images/marker_icon.png" class="h-12 w-8 mx-1 pt-4">
             <h1 class="text-xl font-bold pt-4 w-7/12">{{ spot.name }}</h1>
@@ -200,6 +199,6 @@ function loadGoogleMapsScript(apiKey) {
 
         <div class="border-t-2 border-gray-400 my-4"></div>
 
-        <ReviewSection :success="success" :spot="spot" />
+        <ReviewSection :success="successReview" :spot="spot" />
     </Layout>
 </template>
