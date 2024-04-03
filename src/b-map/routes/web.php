@@ -37,18 +37,18 @@ Route::get('/contact', function () {
 })->name('contact');
 
 
-
+// -------------------- マイページ --------------------
 Route::get('/mypage', [MyPageController::class, 'index'])
 ->middleware(['auth', 'verified'])
 ->name('mypage');
 
 
-
+// -------------------- ソーシャルログイン --------------------
 Route::get('/auth/{provider}/callback', [SocialLoginController::class, 'providerCallback']);
 Route::get('social-auth/{provider}', [SocialLoginController::class, 'redirectToProvider']);
 
 
-
+// -------------------- スポット関連 --------------------
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/spots/create', [SpotController::class, 'create'])
     ->name('spots.create');
@@ -73,7 +73,7 @@ Route::get('/spots/{spot}', [SpotController::class, 'show'])
 ->name('spots.show');
 
 
-
+// -------------------- レビュー関連 --------------------
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/reviews/create', [ReviewController::class, 'create'])
     ->name('reviews.create');
@@ -86,7 +86,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 
-
+// -------------------- プロフィール --------------------
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])
     ->name('profile.edit');

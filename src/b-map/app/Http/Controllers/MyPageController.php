@@ -51,6 +51,8 @@ class MyPageController extends Controller
             'posts' => $posts,
             'favorites' => $favorites,
             'reviews' => $reviews,
+            'deleteId' => session('deleteId'),
+            'error' => session('error'),
         ]);
     }
 }

@@ -238,7 +238,28 @@ class SpotController extends Controller
      */
     public function destroy(Spot $spot)
     {
-        //
+        DB::beginTransaction(); 
+
+        try {
+            if ($spot->spotImages) {
+                $disk = Storage::disk('s3');
+    
+                foreach ($spot->spotImages as $spotImage) {
+                    $currentFileName = basename($spotImage->image);
+                    $disk->delete('spot_image/' . $currentFileName);
+                }
+            }
+
+            $spot->delete();
+    
+            DB::commit(); 
+    
+            return redirect()->route('mypage')->with('deleteId', $spot->id);
+        } catch (\Exception $e) {
+            DB::rollBack(); 
+            log::error($e->getMessage());
+            return back()->with('error', 'スポットの削除に失敗しました。');
+        }
     }
     
     public function addFavorite(Request $request, Spot $spot)
