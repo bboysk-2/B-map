@@ -86,7 +86,7 @@ const handleSubmit = async () => {
     <Head title="スポット編集" />
 
     <Layout :error="error">
-        <h1 class="text-xl font-extrabold pl-4">スポット情報</h1>
+        <h1 class="text-xl font-extrabold pl-4">スポット編集</h1>
         <div class="my-10">
             <label for="spot_name">スポット名<span class="text-red-500">（必須）</span></label>
             <TextInput

@@ -19,6 +19,12 @@ body {
     animation-duration:0.2s;
     animation-fill-mode:forwards;
   }
+
+  .fadeInSlideUp {
+    animation-name:fadeInSlideUpAnime;
+    animation-duration:4s;
+    animation-fill-mode:forwards;
+  }
   
   @keyframes fadeInAnime{
     from {
@@ -37,5 +43,27 @@ body {
 
     to {
       transform: scale(1);
+    }
+  }
+
+  @keyframes fadeInSlideUpAnime {
+    0% {
+      opacity: 0;
+      transform: translateY(100px);
+    }
+
+    10% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    90% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    100% {
+      opacity: 0;
+      transform: translateY(100px);
     }
   }

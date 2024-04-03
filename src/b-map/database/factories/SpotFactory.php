@@ -14,10 +14,14 @@ class SpotFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition() : array
     {
         return [
-            //
+            'user_id' => 2,
+            'name' => fake()->text(10),
+            'address' => fake()->address,
+            'latitude' => fake()->latitude,
+            'longitude' => fake()->longitude,
         ];
     }
 }
