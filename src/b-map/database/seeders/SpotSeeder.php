@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Spot;
 
 
 class SpotSeeder extends Seeder
@@ -15,6 +16,6 @@ class SpotSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Spot::factory(10)->create();
+        Spot::factory(10)->create();
     }
 }
