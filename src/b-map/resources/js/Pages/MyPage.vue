@@ -1,10 +1,9 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import BlueButton from '@/Components/Button.vue';
-import SpotCardToEdit from '@/Components/SpotCardToEdit.vue';
 import SpotCard from '@/Components/SpotCard.vue';
 import DeleteFlash from '@/Components/DeleteFlash.vue';
-import ReviewCardToEdit from '@/Components/ReviewCardToEdit.vue';
+import ReviewCard from '@/Components/ReviewCard.vue';
 import Layout from '@/Layouts/Layout.vue';
 import { ref, reactive, onMounted, watchEffect } from 'vue';
 
@@ -57,7 +56,7 @@ function updateUnderline(tabElement) {
 
     <Layout :error="error">
         <DeleteFlash :deleteId="deleteId" />
-        
+
         <div class="flex"> 
             <div class="w-20 h-20 rounded-full overflow-hidden flex items-center justify-center ml-4">
                 <img :src="avatarPath" class="object-cover w-full h-full">
@@ -87,7 +86,7 @@ function updateUnderline(tabElement) {
             <div class="mt-3">
                 <div v-show="currentTab === 'posts'" class="content">
                     <p class="ml-4">投稿:{{ posts.length }}件</p>
-                    <SpotCardToEdit :spots="posts" />
+                    <SpotCard :spots="posts" :canEdit="true"/>
                     <p v-if="!posts">投稿はありません</p>  
                 </div>
 
@@ -100,7 +99,7 @@ function updateUnderline(tabElement) {
                 <div v-show="currentTab === 'reviews'" class="content">
                     <p v-if="reviews.length" class="ml-4">レビュー:{{ reviews.length }}件</p>
                     <p v-else>レビューはありません</p>
-                    <ReviewCardToEdit :reviews="reviews" /> 
+                    <ReviewCard :reviews="reviews" /> 
                 </div>
             </div>
         </div>

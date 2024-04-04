@@ -177,33 +177,33 @@ class SpotController extends Controller
         }
 
         DB::beginTransaction(); 
-
-        if ($request->deleted_images) {
-            $disk = Storage::disk('s3');
-
-            foreach ($request->deleted_images as $deletedImage) {
-                SpotImage::where('id', $deletedImage["id"])->delete();
-                $currentFileName = basename($deletedImage["image"]);
-                $disk->delete('spot_image/' . $currentFileName);
-            }
-        }
-
-        if ($request->hasFile('spot_images')) {
-            if (!$request->deleted_images) {
-                $disk = Storage::disk('s3');
-            }
-
-            foreach ($request->file('spot_images') as $image) {
-                $fileName = $disk->putFile('spot_image', $image);
-                $url = $disk->url($fileName);
-                SpotImage::create([
-                    'spot_id' => $spot->id, 
-                    'image' => $url,
-                ]);
-            }
-        }
-
+        
         try {
+            if ($request->deleted_images) {
+                $disk = Storage::disk('s3');
+    
+                foreach ($request->deleted_images as $deletedImage) {
+                    SpotImage::where('id', $deletedImage["id"])->delete();
+                    $currentFileName = basename($deletedImage["image"]);
+                    $disk->delete('spot_image/' . $currentFileName);
+                }
+            }
+    
+            if ($request->hasFile('spot_images')) {
+                if (!$request->deleted_images) {
+                    $disk = Storage::disk('s3');
+                }
+    
+                foreach ($request->file('spot_images') as $image) {
+                    $fileName = $disk->putFile('spot_image', $image);
+                    $url = $disk->url($fileName);
+                    SpotImage::create([
+                        'spot_id' => $spot->id, 
+                        'image' => $url,
+                    ]);
+                }
+            }
+    
             $spot->update([
                 'name' => $request->spot_name,
                 'address' => $request->address,

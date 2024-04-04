@@ -48,7 +48,7 @@ Route::get('/auth/{provider}/callback', [SocialLoginController::class, 'provider
 Route::get('social-auth/{provider}', [SocialLoginController::class, 'redirectToProvider']);
 
 
-// -------------------- スポット関連 --------------------
+// -------------------- スポット --------------------
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/spots/create', [SpotController::class, 'create'])
     ->name('spots.create');
@@ -73,7 +73,7 @@ Route::get('/spots/{spot}', [SpotController::class, 'show'])
 ->name('spots.show');
 
 
-// -------------------- レビュー関連 --------------------
+// -------------------- レビュー --------------------
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/reviews/create', [ReviewController::class, 'create'])
     ->name('reviews.create');
@@ -83,6 +83,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/reviews/{review}/edit', [ReviewController::class, 'edit'])
     ->name('reviews.edit');
+
+    Route::patch('/reviews/{review}', [ReviewController::class, 'update'])
+    ->name('reviews.update');
 });
 
 

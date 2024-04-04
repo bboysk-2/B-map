@@ -46,7 +46,7 @@ const toggleMenu = (e, spotId) => {
                 <li class="py-2 px-3 border-b border-slate-300">編集</li>
             </Link>
             
-            <li @click="confirmSpotDeletion" class="py-2 px-3 border-b border-slate-300">削除</li>
+            <li @click="confirmSpotDeletion" class="py-2 px-3">削除</li>
         </ul>
     </div>
 

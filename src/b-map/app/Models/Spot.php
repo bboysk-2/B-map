@@ -41,7 +41,7 @@ class Spot extends Model
 
     public function reviews()
     {
-        return $this->hasMany(Review::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(Review::class)->orderBy('updated_at', 'desc');
     }
 
     public function Favorites() {
