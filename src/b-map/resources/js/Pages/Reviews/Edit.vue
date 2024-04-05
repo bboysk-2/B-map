@@ -48,8 +48,9 @@ const submitReview = () => {
             <p v-if="errors.rating" class="text-red-500 ml-6 mt-1">※{{ errors.rating }}</p>
             
             <div class="flex flex-col">
-                <textarea v-model="comment" placeholder="レビューコメント（任意）" class="my-8 min-h-32"></textarea>
-                <BlueButton type="submit" class="w-40 m-auto mt-5">レビューを更新</BlueButton>
+                <textarea v-model="comment" placeholder="レビューコメント（任意）" class="mt-8 min-h-32"></textarea>
+                <p v-if="errors.comment" class="text-red-500 mt-2 m-auto">※{{ errors.comment }}</p>
+                <BlueButton type="submit" class="w-40 m-auto mt-14">レビューを更新</BlueButton>
                 <p v-if="errors.spot_id" class="text-red-500 mt-5 m-auto">※{{ errors.spot_id }}</p>
             </div>
         </form>

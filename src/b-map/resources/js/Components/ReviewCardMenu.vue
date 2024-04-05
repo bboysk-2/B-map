@@ -9,7 +9,6 @@ const props = defineProps({
     reviewId: Number,
 });
 
-
 const confirmingSpotDeletion = ref(false);
 
 const confirmSpotDeletion = (e) => {
@@ -53,13 +52,13 @@ const toggleMenu = (e) => {
     <Modal :show="confirmingSpotDeletion" @close="closeModal">
         <div class="p-6">
             <h2 class="text-lg font-medium text-gray-900">
-                スポットを本当に削除しますか？
+                レビューを本当に削除しますか？
             </h2>
 
             <div class="mt-6 flex justify-end">
                 <SecondaryButton @click="closeModal" class="mr-3"> キャンセル </SecondaryButton>
 
-                <Link :href="route('spots.destroy', reviewId)" method="delete" preserve-scroll>
+                <Link :href="route('reviews.destroy', reviewId)" method="delete" preserve-scroll>
                     <DangerButton>
                         削除
                     </DangerButton>

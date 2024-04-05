@@ -26,7 +26,7 @@ class StoreReviewRequest extends FormRequest
         return [
             'spot_id' => ['required','exists:spots,id'] , //spots テーブルの id カラムに存在しているか
             'rating' => ['required','integer','min:1','max:5'],
-            'comment' => ['nullable','string'],
+            'comment' => ['nullable','string', 'max:255'],
         ];
     }
 
@@ -40,6 +40,7 @@ class StoreReviewRequest extends FormRequest
             'spot_id.required' =>'不正な操作です。',
             'spot_id.exists:spots,id' =>'不正な操作です。',
             'comment.string' =>'コメントは文字列で入力してください。',
+            'comment.max' =>'コメントは255文字以内で入力してください。',
         ];
     }
 }
