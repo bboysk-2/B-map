@@ -81,4 +81,20 @@ class ReviewController extends Controller
             return back()->with('error', 'レビューの更新に失敗しました');
         }
     }
+
+
+    public function destroy(Request $request, Review $review) {
+        try {
+            if ($review->user_id !== $request->user()->id) {
+                return back()->with('error', '他のユーザーのレビューは削除できません');
+            }
+
+            $review->delete();
+
+            return redirect()->route('mypage')->with('deleteId', $review->id);
+        } catch (Exception $e) {
+            log::error($e->getMessage());
+            return back()->with('error', 'レビューの削除に失敗しました');
+        }
+    }
 }

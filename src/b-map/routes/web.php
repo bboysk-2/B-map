@@ -86,6 +86,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::patch('/reviews/{review}', [ReviewController::class, 'update'])
     ->name('reviews.update');
+
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])
+    ->name('reviews.destroy');
 });
 
 
