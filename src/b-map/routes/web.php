@@ -20,6 +20,7 @@ use App\Http\Controllers\ReviewController;
 |
 */
 
+// -------------------- ヘッダーメニュー --------------------
 Route::get('/', function () {
     return Inertia::render('Home');
 })->name('home');
@@ -31,10 +32,6 @@ Route::get('/policy', function () {
 Route::get('/rules', function () {
     return Inertia::render('Rules');
 })->name('rules');
-
-Route::get('/contact', function () {
-    return Inertia::render('Contact');
-})->name('contact');
 
 
 // -------------------- マイページ --------------------

@@ -48,9 +48,9 @@ function toggleMenu() {
             <img src="/images/note_icon.png" class="w-5 h-5 mr-2" />
             利用規約
         </Link>
-        <Link :href="route('contact')" class="flex items-center px-4 py-4">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_043wa6GU0ZCvxDfg7ENreF-VYAVpwYIOuZsgMhhxYBLL0g/viewform?usp=sf_link" target="_blank" class="flex items-center px-4 py-4">
             <img src="/images/male_icon.png" class="w-5 h-5 mr-2" />
             お問い合わせ
-        </Link>
+        </a>
     </nav>
 </template>
