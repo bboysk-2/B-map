@@ -28,12 +28,14 @@ class SpotSearchController extends Controller
     
             $spots->withPath("/api/search/?keyword={$keyword}");
 
-            $spots->map(function ($spot) {
-                $spot->isFavorite = $spot->favorites->contains(function ($favorite) {
-                    return $favorite->user_id === auth()->user()->id;
+            if (auth()->user()) {
+                $spots->map(function ($spot) {
+                    $spot->isFavorite = $spot->favorites->contains(function ($favorite) {
+                        return $favorite->user_id === auth()->user()->id;
+                    });
+                    return $spot;
                 });
-                return $spot;
-            });
+            }
             
         return response()->json($spots);
     }
