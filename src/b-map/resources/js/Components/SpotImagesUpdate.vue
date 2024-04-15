@@ -20,7 +20,7 @@ if (props.spotImages) {
 
 // プレビュー画像の追加、親コンポーネントへイベントオブジェクトの打ち上げ
 const addSpotImages = (event) => {
-    const files = Array.from(event.target.files).slice(0, 4 - previewImages.value.length);
+    const files = Array.from(event.target.files).slice(0, 8 - previewImages.value.length);
     files.forEach(file => {
         const url = URL.createObjectURL(file);
         previewImages.value.push(url);
@@ -43,15 +43,21 @@ const removeSpotImage = (index) => {
 
 <template>
     <div class="py-5">
-        <div v-if="!previewImages.length" class="flex flex-col items-center justify-center m-auto h-56 w-full bg-gray-200">
+        <div v-if="!previewImages.length" class="flex flex-col items-center justify-center m-auto h-56 w-full bg-gray-200 rounded-lg">
             <img src="/images/camera_icon.png" class="h-24 w-24">
-            <p class="font-bold mt-3">※上限四枚</p>
         </div>
 
         <input type="file" ref="fileInput" class="hidden" name="spot_images" @change="addSpotImages" accept="image/*" multiple>            
-        <div v-for="(image, index) in previewImages" :key="index" class="mx-auto mb-4 justify-center w-full h-56 relative">
-            <img :src="image" class="object-cover w-full h-full">
-            <button @click="removeSpotImage(index)" class="absolute top-0 right-0 bg-gray-100 p-1">✖</button>
+        <div v-show="previewImages.length === 1" v-for="(image, index) in previewImages" :key="index" class="mx-auto justify-center w-full h-56 relative">
+            <img :src="image" class="object-cover w-full h-full rounded-lg">
+            <button @click="removeSpotImage(index)" class="absolute top-2 right-2 bg-gray-100 h-7 w-7 rounded-full">✖</button>
+        </div>
+
+        <div v-show="previewImages.length >= 2" class="grid grid-cols-2 gap-2">
+            <div v-for="(image, index) in previewImages" :key="index" class="mx-auto justify-center w-full h-40 relative">
+                <img :src="image" class="object-cover w-full h-full rounded-lg">
+                <button @click="removeSpotImage(index)" class="absolute top-2 right-2 bg-gray-100 h-7 w-7 rounded-full">✖</button>
+            </div>
         </div>
 
         <div class="flex justify-center">

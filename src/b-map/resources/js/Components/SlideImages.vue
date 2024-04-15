@@ -47,7 +47,7 @@ const closeModal = () => {
 
 <template>
     <div class="relative w-full h-56">
-        <img :src="currentImage" @click="showOverView" class="object-cover w-full h-full" @error="handleError">
+        <img :src="currentImage" @click="showOverView" class="object-cover w-full h-full rounded-lg" @error="handleError">
         <div v-if="hasPrevious" @click="previousImage" class="flex justify-center items-center absolute top-24 left-1 w-9 h-9 cursor-pointer rounded-full bg-black opacity-70">
             <img src="/images/left_arrow_button.png" class="w-6 h-6">
         </div>

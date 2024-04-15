@@ -25,7 +25,7 @@ const submit = () => {
     <Head title="パスワードリセット" />
 
     <Layout>
-        <div class="mt-40" >
+        <div class="mt-32" >
             <div class="mb-4 text-sm text-gray-600">
                 <h2 class="font-bold mb-4">
                     パスワードをお忘れですか？
