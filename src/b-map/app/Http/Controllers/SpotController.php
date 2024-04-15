@@ -179,6 +179,24 @@ class SpotController extends Controller
         DB::beginTransaction(); 
         
         try {
+            $spot->update([
+                'name' => $request->spot_name,
+                'address' => $request->address,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'category' => $request->category,
+                'space' => $request->space,
+                'floor_material' => $request->floor_material,
+                'slipping' => $request->slipping,
+                'usage_fee' => $request->usage_fee,
+                'available_times' => $request->available_times,
+                'volume' => $request->volume,
+                'reservation' => $request->reservation,
+                'remarks' => $request->remarks,
+            ]);
+    
+            DB::commit(); 
+
             if ($request->deleted_images) {
                 $disk = Storage::disk('s3');
     
@@ -203,24 +221,6 @@ class SpotController extends Controller
                     ]);
                 }
             }
-    
-            $spot->update([
-                'name' => $request->spot_name,
-                'address' => $request->address,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'category' => $request->category,
-                'space' => $request->space,
-                'floor_material' => $request->floor_material,
-                'slipping' => $request->slipping,
-                'usage_fee' => $request->usage_fee,
-                'available_times' => $request->available_times,
-                'volume' => $request->volume,
-                'reservation' => $request->reservation,
-                'remarks' => $request->remarks,
-            ]);
-    
-            DB::commit(); 
     
             return redirect()->route('spots.show', $spot->id)->with('success', 'スポットを更新しました。');
         } catch (\Exception $e) {

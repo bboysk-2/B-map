@@ -44,7 +44,7 @@ props.spot.spot_images.forEach(spot => {
 
 
 const addFormImages = (event) => {
-    const files = Array.from(event.target.files).slice(0, 4 - form.spot_images.length);
+    const files = Array.from(event.target.files).slice(0, 8 - form.spot_images.length);
     files.forEach(file => {
         form.spot_images.push(file);
     });

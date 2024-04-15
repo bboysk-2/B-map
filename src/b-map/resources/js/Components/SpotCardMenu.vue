@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, ref, reactive } from 'vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import Modal from '@/Components/Modal.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
@@ -9,6 +9,13 @@ const props = defineProps({
     spotId: Number,
 });
 
+const form = useForm({});
+
+const submitDelete = () => {
+    form.delete(route('spots.destroy', props.spotId), {
+        preserveScroll: true
+    });
+};
 
 const confirmingSpotDeletion = ref(false);
 
@@ -30,6 +37,8 @@ const toggleMenu = (e, spotId) => {
     e.preventDefault();
     isMenuOpen[spotId] = !isMenuOpen[spotId];
 };
+
+
 </script>
 
 <template>
@@ -59,11 +68,9 @@ const toggleMenu = (e, spotId) => {
             <div class="mt-6 flex justify-end">
                 <SecondaryButton @click="closeModal" class="mr-3"> キャンセル </SecondaryButton>
 
-                <Link :href="route('spots.destroy', spotId)" method="delete" preserve-scroll>
-                    <DangerButton>
+                <DangerButton @click="submitDelete" :disabled="form.processing">
                         削除
-                    </DangerButton>
-                </Link>
+                </DangerButton>
             </div>
         </div>
     </Modal>

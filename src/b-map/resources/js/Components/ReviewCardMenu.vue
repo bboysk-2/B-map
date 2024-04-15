@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, ref, reactive } from 'vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import Modal from '@/Components/Modal.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
@@ -8,6 +8,14 @@ import DangerButton from '@/Components/DangerButton.vue';
 const props = defineProps({
     reviewId: Number,
 });
+
+const form = useForm({});
+
+const submitDelete = () => {
+    form.delete(route('reviews.destroy', props.reviewId), {
+        preserveScroll: true
+    });
+};
 
 const confirmingSpotDeletion = ref(false);
 
@@ -58,11 +66,9 @@ const toggleMenu = (e) => {
             <div class="mt-6 flex justify-end">
                 <SecondaryButton @click="closeModal" class="mr-3"> キャンセル </SecondaryButton>
 
-                <Link :href="route('reviews.destroy', reviewId)" method="delete" preserve-scroll>
-                    <DangerButton>
-                        削除
-                    </DangerButton>
-                </Link>
+                <DangerButton @click="submitDelete" :disabled="form.processing">
+                    削除
+                </DangerButton>
             </div>
         </div>
     </Modal>
