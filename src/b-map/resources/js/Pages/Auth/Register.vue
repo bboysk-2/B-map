@@ -28,6 +28,21 @@ const submit = () => {
 
     <Layout>
         <h1 class="text-xl font-extrabold pl-4 mb-10">会員登録</h1>
+
+        <div class="mx-6" >                            
+            <a href="social-auth/google">
+                <div class="w-full flex items-center justify-center border border-black bg-white py-1">
+                    <img src="/images/google_icon.png" class="h-5 w-5 mx-1">
+                    <p class="">Googleでログイン</p>                                
+                </div>
+            </a>
+        </div>
+        <div class="flex items-center my-6" >
+            <div class="flex-grow border-t border-black"></div>
+            <span class="mx-4">または</span>
+            <div class="flex-grow border-t border-black"></div>
+        </div>
+
         <form @submit.prevent="submit">        
             <div>
                 <InputLabel for="name" value="ユーザー名" />

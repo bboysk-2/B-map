@@ -7,10 +7,20 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
 const props = defineProps({
-    success: String,
+    successReviewMessage: String,
     spot: Object,
 });
 
+// ----------------フラッシュメッセージ----------------
+const flashMessage = ref('');
+
+flashMessage.value = sessionStorage.getItem('successReviewMessage') ? '' : props.successReviewMessage;
+
+if (props.successReviewMessage) {
+    sessionStorage.setItem('successReviewMessage', props.successReviewMessage);
+}
+
+// ----------------ページネーション----------------
 const currentReviews = ref({});
 
 const currentPage = ref(1);
@@ -20,7 +30,7 @@ const totalPages = computed(() => {
 });
 
 onMounted(() => {
-    if (props.success) {
+    if (props.successReviewMessage) {
         window.location.hash = '#reviewElement';
     }
 
@@ -36,6 +46,7 @@ const changePage = (page) => {
     getReviews();
 }
 
+// ----------------レビューを投稿----------------
 const form = useForm({
     spot_name: '',
     spot_id: '',
@@ -46,21 +57,22 @@ const redirectToReviewPage = () => {
     form.spot_id = props.spot.id;
     form.get(route('reviews.create'));
 };
-
 </script>
 
 <template>
     <div id="reviewElement" class="mx-2">
-        <div v-if="success" class="bg-blue-400 p-3 w-full">
-            <p class="text-white">{{ success }}</p>
+        <div class="relative">
+            <div v-if="flashMessage" class="fadeInSlideDown absolute top-0 bg-blue-400 p-3 w-full">
+                <p class="text-white">{{ flashMessage }}</p>
+            </div>
+    
+            <div class="flex mt-2">
+                <BlueButton @click="redirectToReviewPage" class="ml-auto">
+                    <p>レビューする</p>
+                </BlueButton>
+            </div>
         </div>
-
-        <div class="flex mt-2">
-            <BlueButton @click="redirectToReviewPage" class="ml-auto">
-                <p>レビューする</p>
-            </BlueButton>
-        </div>
-
+        
         <h2 class="font-bold mb-3">直近のレビュー</h2>
     </div>
 
@@ -68,7 +80,7 @@ const redirectToReviewPage = () => {
         <p>レビューはまだありません。</p>
     </div>
 
-    <div v-for="review in currentReviews" :key="review.id" class="bg-white border-2  min-h-24 w-hull p-1 mt-2 rounded-lg shadow-3xl">
+    <div v-for="review in currentReviews" :key="review.id" class="bg-white border-2  min-h-24 w-hull p-1 mt-2 mb-5 rounded-lg shadow-3xl">
         <div class="flex items-center">
             <div class="flex justify-center items-center overflow-hidden rounded-full h-9 w-9 m-1">
                 <img :src="review.user.avatar ?? '/images/no_avatar.png'">

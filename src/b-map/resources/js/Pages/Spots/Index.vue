@@ -21,7 +21,13 @@ const searchWord = ref(sessionStorage.getItem('searchWord') || '');
 
 const responseSpots = ref(JSON.parse(sessionStorage.getItem('responseSpots') || '[]'));
 
-const searchFlag = ref(false);
+const searchFlag = ref(JSON.parse(sessionStorage.getItem('searchFlag') || false));
+
+if (props.success) {
+    searchWord.value = '';
+    responseSpots.value = [];
+    searchFlag.value = false;
+}
 
 watchEffect(() => {
     sessionStorage.setItem('searchFlag', searchFlag.value);
@@ -38,6 +44,7 @@ const searchSpot = async (url) => {
         const response = await axios.get(url);
         responseSpots.value = response.data;
         searchFlag.value = true;
+        window.scroll({top: 0, behavior: 'auto'});
     } catch (error) {
         console.error(error);
     }
@@ -55,6 +62,8 @@ const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const map = ref(null);
 
 const tokyo = {lat: 35.681167, lng: 139.767052};
+
+const searchLocationWord =ref('');
 
 //現在開かれているウインドウオブジェクト追跡用
 let currentOpenInfoWindow = null;
@@ -150,7 +159,7 @@ function getCurrentLocation() {
 }
 
 const searchLocation = async () => {
-    const response = await axios.get(`/api/geocode/?address=${searchWord.value}`);
+    const response = await axios.get(`/api/geocode/?address=${searchLocationWord.value}`);
     const lat = response.data.latitude;
     const lng = response.data.longitude;
     map.value.setCenter({ lat, lng });
@@ -202,10 +211,14 @@ const searchLocation = async () => {
                         <p>リストで表示</p>
                     </button>
 
-                    <div class="flex mb-4">
-                        <TextInput v-model="searchWord" type="text" class="ml-1 w-full" placeholder="住所・施設名で検索"/>
+                    <div class="relative flex mb-4">
+                        <TextInput v-model="searchLocationWord" type="text" class="ml-1 w-full" placeholder="指定の住所・施設に移動"/>
                         <button @click="searchLocation" class="flex justify-center items-center bg-gray-300 w-12 h-12">
                             <img src="/images/search_spot_icon.png">
+                        </button>
+
+                        <button @click="searchLocationWord = ''" class="absolute flex justify-center items-center top-3 right-14 bg-gray-300 w-5 h-5 rounded-full">
+                            <span class="text-sm">✖</span>
                         </button>
                     </div>
                 </div>

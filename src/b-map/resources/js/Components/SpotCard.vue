@@ -35,7 +35,7 @@ function averageRating(index)  {
             <Link :href="route('spots.show',{spot:spot.id})"> 
                 <div class="bg-white w-full mt-3 mb-5 mx-auto py-2 border border-slate-300 rounded-lg shadow-3xl">
                     <div class="w-full flex items-center justify-center my-2 px-5">
-                        <div class="relative w-full h-40 flex flex-col justify-center items-center rounded-lg">
+                        <div class="relative w-full h-48 flex flex-col justify-center items-center rounded-lg">
                             <img :src="spot.spot_images[0]?.image ?? '/images/no_image_show.png'" class="w-full h-full rounded-lg">
                             <Favorite v-if="$page.props.auth.user" :spotId="spot.id" :isFavorited="spot.isFavorite" class="absolute bottom-3 right-3"/>
                             <SpotCardMenu v-if="canEdit" :spotId="spot.id" /> 

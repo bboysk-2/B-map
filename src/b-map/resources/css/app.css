@@ -7,6 +7,13 @@ body {
     overflow-wrap: break-word;
   }
 
+  .fadeInZoomDown {
+    animation-name:fadeInZoomDown;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-fill-mode:forwards;
+  }
+
   .content {
     animation-name:fadeInAnime;
     animation-duration:1s;
@@ -25,7 +32,14 @@ body {
     animation-duration:4s;
     animation-fill-mode:forwards;
   }
+
+  .fadeInSlideDown {
+    animation-name:fadeInSlideDownAnime;
+    animation-duration:4s;
+    animation-fill-mode:forwards;
+  }
   
+
   @keyframes fadeInAnime{
     from {
       opacity: 0;
@@ -36,6 +50,7 @@ body {
     }
   }
 
+
   @keyframes zoomInAnime {
     from {
       transform: scale(0);
@@ -45,6 +60,7 @@ body {
       transform: scale(1);
     }
   }
+
 
   @keyframes fadeInSlideUpAnime {
     0% {
@@ -65,5 +81,43 @@ body {
     100% {
       opacity: 0;
       transform: translateY(100px);
+    }
+  }
+
+
+  @keyframes fadeInSlideDownAnime {
+    0% {
+      opacity: 0;
+      transform: translateY(-100px);
+    }
+
+    10% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    90% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    100% {
+      opacity: 0;
+      transform: translateY(-100px);
+    }
+  }
+
+  @keyframes fadeInZoomDown {
+    0% {
+      opacity: 0;
+      transform: scale(1.25);
+    }
+
+    20% {
+      opacity: 1;
+    }
+    
+    100% {
+      transform: scale(1);
     }
   }

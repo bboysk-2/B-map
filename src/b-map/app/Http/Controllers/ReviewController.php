@@ -35,14 +35,14 @@ class ReviewController extends Controller
         }
 
         try {
-            Review::create([
+                Review::create([
                 'spot_id' => $request->spot_id,
                 'user_id' => $request->user()->id,
                 'rating' => $request->rating,
                 'comment' => $request->comment,
             ]);
     
-            return redirect()->route('spots.show',  $request->spot_id)->with('successReview', 'レビューを投稿しました');
+            return redirect()->route('spots.show',  $request->spot_id)->with('successReviewMessage', 'レビューを投稿しました');
         } catch (Exception $e) {
             log::error($e->getMessage());
             return back()->with('error', 'レビューの投稿に失敗しました');
@@ -75,7 +75,7 @@ class ReviewController extends Controller
                 'comment' => $request->comment,
             ]);
 
-            return redirect()->route('spots.show', $review->spot_id)->with('successReview', 'レビューを更新しました');
+            return redirect()->route('spots.show', $review->spot_id)->with('successReviewMessage', 'レビューを更新しました');
         } catch (Exception $e) {
             log::error($e->getMessage());
             return back()->with('error', 'レビューの更新に失敗しました');

@@ -22,6 +22,7 @@ class SpotFactory extends Factory
             'address' => fake()->address,
             'latitude' => fake()->latitude,
             'longitude' => fake()->longitude,
+            'category' => '体育館',
         ];
     }
 }

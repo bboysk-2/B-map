@@ -11,9 +11,11 @@ const props = defineProps({
 });
 
 const rating = ref(0);
+
 const comment = ref('');
 
 const submitReview = () => {
+  sessionStorage.removeItem('successReviewMessage');
   router.post('/reviews/store', {
     spot_id: props.spot.spot_id,
     rating: rating.value,

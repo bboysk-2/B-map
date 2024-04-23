@@ -51,6 +51,6 @@ class SocialLoginController extends Controller
         auth()->login($auth_user);
 
         // homeページに転送
-        return redirect()->intended('mypage');
+        return redirect()->intended('mypage')->with('message', 'ログインしました');
     }
 }

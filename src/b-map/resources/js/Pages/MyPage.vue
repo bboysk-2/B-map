@@ -16,7 +16,6 @@ const props = defineProps({
     deleteId: Number,
 });
 
-
 const currentTab = ref(sessionStorage.getItem('currentTab') || 'posts');
 
 const selectedTabIndex = ref(sessionStorage.getItem('selectedTabIndex') || 0);
@@ -45,7 +44,7 @@ const selectTab = (index) => {
   updateUnderline(tabElements[index]);
 }
 
-function updateUnderline(tabElement) {
+const updateUnderline = (tabElement) => {
   underlineStyle.width = `${tabElement.offsetWidth}px`;
   underlineStyle.left = `${tabElement.offsetLeft}px`;
 }

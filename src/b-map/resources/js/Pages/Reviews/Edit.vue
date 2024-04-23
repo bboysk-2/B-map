@@ -11,9 +11,11 @@ const props = defineProps({
 });
 
 const rating = ref(props.review.rating);
+
 const comment = ref(props.review.comment);
 
 const submitReview = () => {
+  sessionStorage.removeItem('successReviewMessage');
   router.patch(`/reviews/${props.review.id}`, {
     rating: rating.value,
     comment: comment.value,
