@@ -134,7 +134,7 @@ class SpotController extends Controller
             'spot' => $spot,
             'success' => session('success'),
             'error' => session('error'),
-            'successReview' => session('successReview'),
+            'successReviewMessage' => session('successReviewMessage'),
         ]);
     }
 
@@ -222,7 +222,7 @@ class SpotController extends Controller
                 }
             }
     
-            return redirect()->route('spots.show', $spot->id)->with('success', 'スポットを更新しました。');
+            return redirect()->route('spots.show', $spot->id)->with('success', 'スポットを更新しました');
         } catch (\Exception $e) {
             DB::rollBack(); 
             log::error($e->getMessage());

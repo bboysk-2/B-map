@@ -8,16 +8,17 @@ const props = defineProps({
 
 const modal = ref(false);
 
-const currentIndex = ref(0);
+const currentIndex = ref(1);
+
 const defaultImage = '/images/no_image_show.png';
 
 const spotImages = computed(() => props.spot.spot_images.length ? props.spot.spot_images : [{ image: defaultImage }]);
 
-const currentImage = computed(() => spotImages.value[currentIndex.value].image);
+const currentImage = computed(() => spotImages.value[currentIndex.value - 1].image);
 
-const hasNext = computed(() => currentIndex.value < spotImages.value.length - 1);
+const hasNext = computed(() => currentIndex.value < spotImages.value.length);
 
-const hasPrevious = computed(() => currentIndex.value > 0);
+const hasPrevious = computed(() => currentIndex.value > 1);
 
 function nextImage() {
     if (hasNext.value) {
@@ -51,9 +52,12 @@ const closeModal = () => {
         <div v-if="hasPrevious" @click="previousImage" class="flex justify-center items-center absolute top-24 left-1 w-9 h-9 cursor-pointer rounded-full bg-black opacity-70">
             <img src="/images/left_arrow_button.png" class="w-6 h-6">
         </div>
+
         <div v-if="hasNext" @click="nextImage" class="flex justify-center items-center absolute top-24 right-1 w-9 h-9 cursor-pointer rounded-full bg-black opacity-70">
             <img src="/images/right_arrow_button.png" class="w-6 h-6">
         </div>
+
+        <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 text-white bg-black opacity-70">{{ currentIndex }}/{{ spotImages.length }}</div>
     </div>
 
     <OverViewModal :show="modal" @close="closeModal">

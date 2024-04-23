@@ -13,10 +13,14 @@ const props = defineProps({
     <body>
         <Header />
         <div class="min-h-screen" style="background-image: url('/images/background_image.png');">
-            <!-- エラーもしくは処理が成功した際のフラッシュメッセージ表示領域 -->
             <div v-if="success" class="bg-blue-400 p-3 w-screen">
                 <p class="text-white">{{ success }}</p>
             </div>
+
+            <div v-if="$page.props.flash.message" class="bg-blue-400 p-3 w-screen">
+                <p class="text-white">{{ $page.props.flash.message }}</p>
+            </div>
+
             <div v-if="error" class="bg-red-400 p-3 w-screen">
                 <p class="text-white">{{ error }}</p>
             </div>

@@ -12,6 +12,7 @@ const props = defineProps({
 const form = useForm({});
 
 const submitDelete = () => {
+    sessionStorage.removeItem('deleteId');
     form.delete(route('spots.destroy', props.spotId), {
         preserveScroll: true
     });

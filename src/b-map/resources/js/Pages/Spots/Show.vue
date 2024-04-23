@@ -14,7 +14,7 @@ const props = defineProps({
     success: String,
     error: String,
     spot: Object,
-    successReview: String,
+    successReviewMessage: String,
 });
 
 // スポットの詳細情報が全て空かどうかを判定するcomputedプロパティ
@@ -199,6 +199,6 @@ function loadGoogleMapsScript(apiKey) {
 
         <div class="border-t-2 border-gray-400 my-4"></div>
 
-        <ReviewSection :success="successReview" :spot="spot" />
+        <ReviewSection :successReviewMessage="successReviewMessage" :spot="spot" />
     </Layout>
 </template>

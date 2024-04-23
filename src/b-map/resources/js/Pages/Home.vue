@@ -1,9 +1,45 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import Header from '@/Components/Header.vue';
 import BlueButton from '@/Components/Button.vue';
 import FooterMenu from '@/Components/FooterMenu.vue';
 
+
+const heroImages = [
+    '/images/hero_images/yamatai.jpg',
+    '/images/hero_images/kumatai.jpg',
+    '/images/hero_images/kominkan.jpg',
+    '/images/hero_images/ocat.png',];
+
+const currentImage = ref('/images/hero_images/ocat.png');
+
+// アニメーションフラグ
+const isAnimation = ref(true);
+
+let count = 0;
+
+// isAnimationをfalseからtrueにする際、間隔をあけないとアニメーションが動かなかったため50ミリ秒間隔をあける
+const addAnimationClass = () => new Promise(resolve => {
+    setTimeout(() => {
+        isAnimation.value = true;
+        resolve();
+    }, 50)
+}) 
+
+const slideShow = async () => {
+    isAnimation.value = false;
+    await addAnimationClass();
+    currentImage.value = heroImages[count]
+    count ++;
+    if (count === heroImages.length) {
+        count = 0;
+    }
+}
+
+setInterval(() => {
+    slideShow();
+}, 5000);
 </script>
 
 <template>
@@ -12,9 +48,13 @@ import FooterMenu from '@/Components/FooterMenu.vue';
     <body>
         <Header />
 
+        <div v-if="$page.props.flash.message" class="bg-blue-400 p-3 w-screen">
+                <p class="text-white">{{ $page.props.flash.message }}</p>
+        </div>
+        
         <div class="w-full h-height-60vh overflow-hidden relative">
-            <img id ="hero_img" src="/images/hero_image.jpg" class="w-full h-full object-cover absolute top-0 left-0"/> 
-            <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center p-4" style="max-width: 580px;">
+            <img :src="currentImage" :class="{ fadeInZoomDown: isAnimation}" class="w-full h-full object-cover object-center absolute top-0 left-0"/> 
+            <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center p-4">
                 <div>
                     <h1 class="text-white-outline text-black font-bold text-center text-7xl md:text-8xl lg:text-9xl">B-MAP</h1>
                     <p class="text-white-outline text-black font-bold text-center text-2xl md:text-4xl lg:text-5xl">練習場所を身近に</p>
@@ -104,10 +144,6 @@ import FooterMenu from '@/Components/FooterMenu.vue';
          2px 0 4px white,
          0 -2px 4px white,
          0 2px 4px white;
-    }
-    #hero_img {
-        /* 拡大したときにセンターボトムにフォーカスされる */
-        object-position: center bottom;
     }
 </style>
 
