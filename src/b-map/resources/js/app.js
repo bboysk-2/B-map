@@ -5,8 +5,14 @@ import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
+
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+
+library.add(fas, far);
 
 createInertiaApp({
     title: (title) => `B-Map - ${title} `,

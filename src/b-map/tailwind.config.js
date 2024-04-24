@@ -14,6 +14,16 @@ module.exports = {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            height: {
+                'height-60vh': '60vh',
+                'screen-64': 'calc(100vh - 64px)',
+            },
+            width: {
+                'width-100vw': '100vw',
+            },
+            boxShadow: {
+                '3xl': '7px 15px 7px -3px rgba(0, 0, 0, 0.3)',
+            },
         },
     },
 

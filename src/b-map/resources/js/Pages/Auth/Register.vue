@@ -1,10 +1,12 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import Header from '@/Components/Header.vue';
+import FooterMenu from '@/Components/FooterMenu.vue';
+import BlueButton from '@/Components/Button.vue';
+import Layout from '@/Layouts/Layout.vue';
 
 const form = useForm({
     name: '',
@@ -22,13 +24,28 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
-        <Head title="Register" />
+    <Head title="会員登録" />
 
-        <form @submit.prevent="submit">
+    <Layout>
+        <h1 class="text-xl font-extrabold pl-4 mb-10">会員登録</h1>
+
+        <div class="mx-6" >                            
+            <a href="social-auth/google">
+                <div class="w-full flex items-center justify-center border border-black bg-white py-1">
+                    <img src="/images/google_icon.png" class="h-5 w-5 mx-1">
+                    <p class="">Googleでログイン</p>                                
+                </div>
+            </a>
+        </div>
+        <div class="flex items-center my-6" >
+            <div class="flex-grow border-t border-black"></div>
+            <span class="mx-4">または</span>
+            <div class="flex-grow border-t border-black"></div>
+        </div>
+
+        <form @submit.prevent="submit">        
             <div>
-                <InputLabel for="name" value="Name" />
-
+                <InputLabel for="name" value="ユーザー名" />
                 <TextInput
                     id="name"
                     type="text"
@@ -38,13 +55,11 @@ const submit = () => {
                     autofocus
                     autocomplete="name"
                 />
-
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
-
+            
             <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-
+                <InputLabel for="email" value="メールアドレス" />
                 <TextInput
                     id="email"
                     type="email"
@@ -53,13 +68,11 @@ const submit = () => {
                     required
                     autocomplete="username"
                 />
-
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
+                <InputLabel for="password" value="パスワード" />
                 <TextInput
                     id="password"
                     type="password"
@@ -67,14 +80,12 @@ const submit = () => {
                     v-model="form.password"
                     required
                     autocomplete="new-password"
-                />
-
+                />            
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
-
+                <InputLabel for="password_confirmation" value="パスワード確認" />            
                 <TextInput
                     id="password_confirmation"
                     type="password"
@@ -82,23 +93,23 @@ const submit = () => {
                     v-model="form.password_confirmation"
                     required
                     autocomplete="new-password"
-                />
-
+                />            
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <Link
-                    :href="route('login')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Already registered?
-                </Link>
-
-                <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
-                </PrimaryButton>
+            <div class="flex flex-col items-center justify-center mt-5">
+                <BlueButton class="my-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    登録する
+                </BlueButton> 
+                <div class="mt-6 mb-3">
+                    <p>ログインページは                                   
+                        <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900">                       
+                            こちら
+                        </Link>
+                    </p>
+                </div>                            
             </div>
-        </form>
-    </GuestLayout>
+        </form> 
+    </Layout>
 </template>
+
