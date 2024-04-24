@@ -88,4 +88,5 @@ URLは[こちら](https://www.figma.com/file/xmpQV2hp7EkaM1jdLY8d8W/B-MAP?type=d
 
 ## 使用しているアイコン素材のダウンロード元
 - [ICOOON-MONO](https://icooon-mono.com/)
-- [ICONS8](https://icons8.jp/)
+- [Icon-rainbow](https://icon-rainbow.com/)
+- [icon-icons](https://icon-icons.com/)
