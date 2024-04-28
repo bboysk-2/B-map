@@ -57,7 +57,7 @@ const clearSearch = () => {
 };
 
 // ---------------これより以下マップ関連の変数・関数---------------
-const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+const apiKey = "AIzaSyCqyCcUMaCfuBtI-xiXBMcVMVFGkgS6m04";
 
 const map = ref(null);
 
