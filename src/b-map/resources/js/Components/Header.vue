@@ -18,8 +18,8 @@ const logout = () => {
 
 <template>
     <header class="flex justify-between items-center h-16 w-full bg-gray-200">
-        <div class="flex items-center ml-4">
-            <ApplicationLogo class="w-40 h-14" />
+        <div class="flex items-center ml-2">
+            <ApplicationLogo class="w-24 h-10 mr-2" />
         </div>
         <div @click="toggleMenu"   class="flex items-center mr-4">
             <img src="/images/hamburge_menu.png" class="w-6 h-6 cursor-pointer" />        
