@@ -36,10 +36,13 @@ class SpotController extends Controller
             });
         }
 
+        $googleMapApiKey = config('services.google_map.api_key');
+
         return Inertia::render('Spots/Index', [
             'allSpots' => Spot::with('spotImages')->get(['id', 'name', 'latitude', 'longitude']), //マップのマーカー描画用
             'spots' => $paginateSpots,
             'success' => session('success'),
+            'googleMapApiKey' => $googleMapApiKey,
         ]);
     }
 
