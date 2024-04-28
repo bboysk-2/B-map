@@ -12,6 +12,7 @@ const props = defineProps({
     success: String,
     spots: Object,
     allSpots: Object,
+    googleMapApiKey: String,
 });
 
 const currentPage = ref('list');
@@ -57,7 +58,7 @@ const clearSearch = () => {
 };
 
 // ---------------これより以下マップ関連の変数・関数---------------
-const apiKey = "AIzaSyCqyCcUMaCfuBtI-xiXBMcVMVFGkgS6m04";
+const apiKey = props.googleMapApiKey;
 
 const map = ref(null);
 
@@ -124,7 +125,7 @@ onMounted(async () => {
     });
 });
 
-function loadGoogleMapsScript(apiKey) {
+const loadGoogleMapsScript = (apiKey) => {
   return new Promise((resolve, reject) => {
     if (window.google && window.google.maps) {
       resolve();
@@ -140,7 +141,7 @@ function loadGoogleMapsScript(apiKey) {
   });
 }
 
-function getCurrentLocation() {
+const getCurrentLocation = () => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
             const pos = {
