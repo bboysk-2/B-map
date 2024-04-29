@@ -133,11 +133,14 @@ class SpotController extends Controller
             });
         }
 
+        $googleMapApiKey = config('services.google_map.api_key');
+
         return Inertia::render('Spots/Show', [
             'spot' => $spot,
             'success' => session('success'),
             'error' => session('error'),
             'successReviewMessage' => session('successReviewMessage'),
+            'googleMapApiKey' => $googleMapApiKey,
         ]);
     }
 

@@ -15,6 +15,7 @@ const props = defineProps({
     error: String,
     spot: Object,
     successReviewMessage: String,
+    googleMapApiKey: String,
 });
 
 // スポットの詳細情報が全て空かどうかを判定するcomputedプロパティ
@@ -53,7 +54,7 @@ const averageRating = computed(() => {
     
 // -----------------これより以下Google Maps関連の変数・関数-----------------
 
-const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+const apiKey = props.googleMapApiKey;
 
 const map = ref(null);
 
