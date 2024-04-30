@@ -8,17 +8,17 @@ const props = defineProps({
 // 新たに削除されたデータがあるかどうか判定
 const isDeleted =ref(false);
 
-// 削除処理後のprops.deletedIdの値の変化（新たにデータが削除されたかどうか）を監視。※onMounted等では動かなかった
+// 削除処理後のprops.deletedIdの値の変化（新たにデータが削除されたかどうか）を監視。
 watchEffect(() => {
     if(props.deleteId) {
         isDeleted.value = false;
-        // isDeletedをfalseからtrueにする際、間隔をあけないとテンプレートに変更が反映されない（細かい理屈は不明）ため遅延させる
-        setTimeout(() => {
+        // ブラウザのリフレッシュレートに合わせてisDeletedをfalseからtrueにする。記述しないと連続で削除した場合に二回目以降フラッシュメッセージが表示されない
+        requestAnimationFrame(() => {
                 // 削除処理後のブラウザバック時のフラッシュメッセージ再表示防止策。削除済みidがセッションにある場合はfalse、ない場合は削除後のデータのidを代入しtrueと評価させる。
                 isDeleted.value = (sessionStorage.getItem('deleteId') ? false : props.deleteId);
         
                 sessionStorage.setItem('deleteId', props.deleteId);        
-        }, 100);
+        });
     }
 });
 </script>
