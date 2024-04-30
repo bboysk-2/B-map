@@ -200,7 +200,6 @@ const searchLocation = async () => {
                 <SpotCard v-if="searchFlag" :spots="responseSpots.data" class="content" />
                 <AsyncPaginate v-if="searchFlag" :links="responseSpots.links" @searchSpot="searchSpot"/>
             </div>            
-            
     </Layout>
 
     <!-- マップ表示画面 -->
