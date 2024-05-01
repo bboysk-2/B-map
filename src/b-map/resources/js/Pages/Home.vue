@@ -4,39 +4,6 @@ import { onMounted, ref } from 'vue';
 import Header from '@/Components/Header.vue';
 import BlueButton from '@/Components/Button.vue';
 import FooterMenu from '@/Components/FooterMenu.vue';
-
-
-const heroImages = [
-    '/images/hero_images/ocat.png',
-    '/images/hero_images/yamatai.jpg',
-    '/images/hero_images/kumatai.jpg',
-    '/images/hero_images/kominkan.jpg',
-    ];
-
-const currentImage = ref(heroImages[0]);
-
-// アニメーションフラグ
-const isAnimation = ref(true);
-
-const key = ref(0);
-
-let count = 0;
-
-onMounted(() => {
-    setInterval(() => {
-        key.value++;
-        count++;
-        if (count === heroImages.length) {
-            count = 0;
-        }
-        isAnimation.value = false;
-
-        requestAnimationFrame(() => {
-            currentImage.value = heroImages[count];
-            isAnimation.value = true;
-        });
-    }, 5000);
-});
 </script>
 
 <template>
@@ -50,7 +17,7 @@ onMounted(() => {
         </div>
         
         <div class="w-full h-height-60vh overflow-hidden relative">
-            <img :src="currentImage" :class="{ fadeInZoomDown: isAnimation}" class="w-full h-full object-cover object-center absolute top-0 left-0" :key="key"/> 
+            <video src="/video/hero_image.mp4" autoplay muted playsinline loop class="w-full h-full object-cover object-center absolute top-0 left-0" /> 
             <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center p-4">
                 <div>
                     <h1 class="text-white-outline text-black font-bold text-center text-7xl md:text-8xl lg:text-9xl">B-MAP</h1>
