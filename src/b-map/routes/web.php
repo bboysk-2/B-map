@@ -36,7 +36,7 @@ Route::get('/rules', function () {
 
 // -------------------- マイページ --------------------
 Route::get('/mypage', [MyPageController::class, 'index'])
-->middleware(['auth', 'verified'])
+->middleware('auth')
 ->name('mypage');
 
 
@@ -46,7 +46,7 @@ Route::get('social-auth/{provider}', [SocialLoginController::class, 'redirectToP
 
 
 // -------------------- スポット --------------------
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/spots/create', [SpotController::class, 'create'])
     ->name('spots.create');
 
@@ -71,7 +71,7 @@ Route::get('/spots/{spot}', [SpotController::class, 'show'])
 
 
 // -------------------- レビュー --------------------
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/reviews/create', [ReviewController::class, 'create'])
     ->name('reviews.create');
 
