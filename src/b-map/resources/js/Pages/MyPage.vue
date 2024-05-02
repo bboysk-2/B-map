@@ -21,32 +21,30 @@ const currentTab = ref(sessionStorage.getItem('currentTab') || 'posts');
 const selectedTabIndex = ref(sessionStorage.getItem('selectedTabIndex') || 0);
 
 watchEffect(() => {
-      sessionStorage.setItem('currentTab', currentTab.value);
-      sessionStorage.setItem('selectedTabIndex', selectedTabIndex.value);
-    });
+    sessionStorage.setItem('currentTab', currentTab.value);
+    sessionStorage.setItem('selectedTabIndex', selectedTabIndex.value);
+});
 
 const underlineStyle = reactive({
-  width: '0px',
-  left: '0px',
-  'z-index': '10',
+    width: '0px',
+    left: '0px',
+    'z-index': '10',
 });
 
 onMounted(() => {
-  const tabElements = document.querySelectorAll('.tab');
-  if (tabElements.length > 0) {
+    const tabElements = document.querySelectorAll('.tab');
     updateUnderline(tabElements[selectedTabIndex.value]);
-  }
 });
 
 const selectTab = (index) => {
-  selectedTabIndex.value = index;
-  const tabElements = document.querySelectorAll('.tab');
-  updateUnderline(tabElements[index]);
+    selectedTabIndex.value = index;
+    const tabElements = document.querySelectorAll('.tab');
+    updateUnderline(tabElements[index]);
 }
 
 const updateUnderline = (tabElement) => {
-  underlineStyle.width = `${tabElement.offsetWidth}px`;
-  underlineStyle.left = `${tabElement.offsetLeft}px`;
+    underlineStyle.width = `${tabElement.offsetWidth}px`;
+    underlineStyle.left = `${tabElement.offsetLeft}px`;
 }
 </script>
 

@@ -13,7 +13,7 @@ import FooterMenu from '@/Components/FooterMenu.vue';
         <Header />
 
         <div v-if="$page.props.flash.message" class="bg-blue-400 p-3 w-screen">
-                <p class="text-white">{{ $page.props.flash.message }}</p>
+            <p class="text-white">{{ $page.props.flash.message }}</p>
         </div>
         
         <div class="w-full h-height-60vh overflow-hidden relative">
@@ -97,7 +97,7 @@ import FooterMenu from '@/Components/FooterMenu.vue';
     </body>   
 </template>
 
-<style>
+<style scoped>
     .text-white-outline {
       text-shadow:
         -1px -1px 0 white,  
