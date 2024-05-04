@@ -173,7 +173,7 @@ const searchLocation = async () => {
     <Layout :success="success" v-if="currentPage === 'list'">
         <!-- リスト表示画面 -->
         <div>
-            <button @click="currentPage = 'map'" class="flex items-center h-9 bg-white pl-1 pr-4 mb-7 border border-slate-300  rounded-lg">
+            <button @click="currentPage = 'map'" class="flex items-center h-9 bg-white ml-2 pl-1 pr-4 mb-7 border border-slate-300  rounded-lg">
                 <img src="/images/pin_icon.png">
                 <p>マップで表示</p>
             </button>
