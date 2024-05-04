@@ -157,32 +157,45 @@ function loadGoogleMapsScript(apiKey) {
         <div class="mx-2">
             <h2 class="font-bold mb-3">スポット詳細</h2>
 
-            <div class="flex items-center">
-                <p v-if="isSpotDetailsEmpty">なし</p>
+            <p v-if="isSpotDetailsEmpty">なし</p>
 
-                <div>
-                    <p v-if="spot.category">スポットカテゴリー</p>
-                    <p v-if="spot.space">広さ（人数）</p>
-                    <p v-if="spot.floor_material">床の素材</p>
-                    <p v-if="spot.slipping">滑り具合</p>
-                    <p v-if="spot.usage_fee">料金</p>
-                    <p v-if="spot.available_times">利用可能な時間帯</p>
-                    <p v-if="spot.volume">音出し</p>
-                    <p v-if="spot.reservation">予約の有無</p>
-                </div>
-
-                <div class="ml-1">
-                    <p v-if="spot.category">: {{ spot.category }}</p>
-                    <p v-if="spot.space">: {{ spot.space }}</p>
-                    <p v-if="spot.floor_material">: {{ spot.floor_material }}</p>
-                    <p v-if="spot.slipping">: {{ spot.slipping }}</p>
-                    <p v-if="spot.usage_fee">: {{ spot.usage_fee }}</p>
-                    <p v-if="spot.available_times">: {{ spot.available_times }}</p>
-                    <p v-if="spot.volume">: {{ spot.volume }}</p>
-                    <p v-if="spot.reservation">: {{ spot.reservation }}</p>
-                </div>
-            </div>
-
+            <table class="w-full">
+                <tbody>
+                    <tr v-if="spot.category">
+                        <td class="text-white border-y border-white bg-teal-500 bg-opacity-50 p-2">スポットカテゴリー</td>
+                        <td class="border-y border-white bg-teal-100 bg-opacity-50 p-2">{{ spot.category }}</td>
+                    </tr>
+                    <tr v-if="spot.space">
+                        <td class="text-white border-y border-white bg-teal-500 bg-opacity-50 p-2">広さ（人数）</td>
+                        <td class="border-y border-white bg-teal-100 bg-opacity-50 p-2">{{ spot.space }}</td>
+                    </tr>
+                    <tr v-if="spot.floor_material">
+                        <td class="text-white border-y border-white bg-teal-500 bg-opacity-50 p-2">床の素材</td>
+                        <td class="border-y border-white bg-teal-100 bg-opacity-50 p-2">{{ spot.floor_material }}</td>
+                    </tr>
+                    <tr v-if="spot.slipping">
+                        <td class="text-white border-y border-white bg-teal-500 bg-opacity-50 p-2">滑り具合</td>
+                        <td class="border-y border-white bg-teal-100 bg-opacity-50 p-2">{{ spot.slipping }}</td>
+                    </tr>
+                    <tr v-if="spot.usage_fee">
+                        <td class="text-white border-y border-white bg-teal-500 bg-opacity-50 p-2">料金</td>
+                        <td class="border-y border-white bg-teal-100 bg-opacity-50 p-2">{{ spot.usage_fee }}</td>
+                    </tr>
+                    <tr v-if="spot.available_times">
+                        <td class="text-white border-y border-white bg-teal-500 bg-opacity-50 p-2">利用可能な時間帯</td>
+                        <td class="border-y border-white bg-teal-100 bg-opacity-50 p-2">{{ spot.available_times }}</td>
+                    </tr>
+                    <tr v-if="spot.volume">
+                        <td class="text-white border-y border-white bg-teal-500 bg-opacity-50 p-2">音出し</td>
+                        <td class="border-y border-white bg-teal-100 bg-opacity-50 p-2">{{ spot.volume }}</td>
+                    </tr>
+                    <tr v-if="spot.reservation">
+                        <td class="text-white border-y border-white bg-teal-500 bg-opacity-50 p-2">予約の有無</td>
+                        <td class="border-y border-white bg-teal-100 bg-opacity-50 p-2">{{ spot.reservation }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
             <div v-if="spot.remarks" class="mt-4">
                 <p class="ml-2">備考</p>
 
