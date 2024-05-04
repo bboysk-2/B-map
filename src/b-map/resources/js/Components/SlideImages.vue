@@ -58,7 +58,7 @@ const closeModal = () => {
     <div class="slide-wrapper relative w-full h-56">
         <template class="flex h-full w-full overflow-hidden">
             <div v-for="spotimage in spotImages" :style="slideStyle" class="h-full w-full flex-shrink-0 duration-500">
-                <img :src="spotimage.image" @click="showOverView" class="object-cover w-full  h-full rounded-lg" @error="handleError">
+                <img :src="spotimage.image" @click="showOverView" class="object-cover w-full h-full rounded-lg" @error="handleError">
             </div>
         </template>
         

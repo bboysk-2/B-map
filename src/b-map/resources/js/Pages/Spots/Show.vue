@@ -113,6 +113,7 @@ function loadGoogleMapsScript(apiKey) {
     <Layout :success="success" :error="error">
         <div class="flex items-center">
             <img src="/images/marker_icon.png" class="h-12 w-8 mx-1 pt-4">
+
             <h1 class="text-xl font-bold pt-4 w-7/12">{{ spot.name }}</h1>
 
             <div class="ml-auto text-sm min-w-20">
@@ -129,10 +130,12 @@ function loadGoogleMapsScript(apiKey) {
                     v-if="star <= Math.floor(averageRating)"
                     :icon="['fas', 'star']"
                     style="color: #FFD43B;" />
+
                 <FontAwesomeIcon
                     v-else-if="star === Math.ceil(averageRating) && averageRating % 1 !== 0"
                     :icon="['fas', 'star-half-stroke']"
                     style="color: #FFD43B;" />
+
                 <FontAwesomeIcon
                     v-else
                     :icon="['fas', 'star']" 
@@ -153,8 +156,10 @@ function loadGoogleMapsScript(apiKey) {
 
         <div class="mx-2">
             <h2 class="font-bold mb-3">スポット詳細</h2>
-            <div class="flex items-center ml-2">
+
+            <div class="flex items-center">
                 <p v-if="isSpotDetailsEmpty">なし</p>
+
                 <div>
                     <p v-if="spot.category">スポットカテゴリー</p>
                     <p v-if="spot.space">広さ（人数）</p>
@@ -165,7 +170,8 @@ function loadGoogleMapsScript(apiKey) {
                     <p v-if="spot.volume">音出し</p>
                     <p v-if="spot.reservation">予約の有無</p>
                 </div>
-                <div class="ml-2">
+
+                <div class="ml-1">
                     <p v-if="spot.category">: {{ spot.category }}</p>
                     <p v-if="spot.space">: {{ spot.space }}</p>
                     <p v-if="spot.floor_material">: {{ spot.floor_material }}</p>
@@ -176,8 +182,10 @@ function loadGoogleMapsScript(apiKey) {
                     <p v-if="spot.reservation">: {{ spot.reservation }}</p>
                 </div>
             </div>
+
             <div v-if="spot.remarks" class="mt-4">
                 <p class="ml-2">備考</p>
+
                 <div class="bg-white border-2  min-h-24 w-hull p-1 mt-1">
                     <p>{{ spot.remarks }}</p>
                 </div>
@@ -188,6 +196,7 @@ function loadGoogleMapsScript(apiKey) {
 
         <div class="ml-2 mb-4">
             <h2 class="font-bold">住所</h2>
+
             <p>{{ spot.address }}</p>
         </div>
 

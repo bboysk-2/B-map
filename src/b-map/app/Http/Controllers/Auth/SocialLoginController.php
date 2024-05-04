@@ -23,7 +23,7 @@ class SocialLoginController extends Controller
     {
         // エラーならトップページに遷移
         try {
-            $social_user = Socialite::with($provider)->stateless()->user();
+            $social_user = Socialite::driver($provider)->user();
         } catch (Exception $e) {
             return redirect('/');
         }
