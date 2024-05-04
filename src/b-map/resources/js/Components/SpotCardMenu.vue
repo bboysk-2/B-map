@@ -45,10 +45,10 @@ const toggleMenu = (e, spotId) => {
 <template>
     <div v-if="isMenuOpen[spotId]" @click="toggleMenu($event,spotId)" class="fixed top-0 left-0 w-full h-full z-20"></div>
 
-    <div class="absolute top-3 right-3 w-12 h-5 bg-white rounded-lg flex items-center justify-center"
+    <button class="absolute top-3 right-3 h-5 bg-white border-2 rounded-lg flex items-center justify-center px-1"
     @click="toggleMenu($event,spotId)">
-        <p class="text-xl text-center ">・・・</p>
-    </div>
+        <p class="text-xl">・・・</p>
+    </button>
 
     <div v-if="isMenuOpen[spotId]" class="zoomIn absolute bg-white w-32 h-20 top-9 right-3 rounded-lg z-30">
         <ul>
