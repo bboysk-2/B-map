@@ -12,7 +12,6 @@ services:
 
   php:
     build: ./docker/php
-    user: "${UID}:${GID}"
     volumes:
       - ./src/b-map:/var/www
     depends_on:

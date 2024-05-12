@@ -1,6 +1,5 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
-import { onMounted, ref } from 'vue';
 import Header from '@/Components/Header.vue';
 import BlueButton from '@/Components/Button.vue';
 import FooterMenu from '@/Components/FooterMenu.vue';
