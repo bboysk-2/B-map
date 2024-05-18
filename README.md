@@ -72,13 +72,19 @@
 - PHP 8.0.30
 - Laravel Breeze
 
+### データベース
+- MySQL 8.0
+
 ### フロントエンド
 - Vue.js 3.2.41
-- Tailwindcss
+- Tailwindcss 3.2.1
 
 ### インフラ
 - Docker(開発環境)
 - Heroku(デプロイ)
+
+### 外部ストレージ
+- AWS S3
 
 ### サードパーティAPI
 - Google API
