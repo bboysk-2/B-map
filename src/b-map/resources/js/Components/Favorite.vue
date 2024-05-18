@@ -43,6 +43,7 @@ const toggleFavorite = async (event) => {
     <div class="prevent-link flex justify-center items-center  rounded-full bg-white h-7 w-7">
         <button :disabled="isSubmitting" @click.stop="toggleFavorite" class="mt-1">
             <FontAwesomeIcon v-if="isFavorite" :icon="['fas', 'heart']" style="color: #fb6a6a;" />
+            
             <FontAwesomeIcon v-else :icon="['far', 'heart']" />
         </button>
     </div>

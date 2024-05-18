@@ -14,8 +14,8 @@ watchEffect(() => {
         isDeleted.value = false;
         // ブラウザのリフレッシュレートに合わせてisDeletedをfalseからtrueにする。記述しないと連続で削除した場合に二回目以降フラッシュメッセージが表示されない
         requestAnimationFrame(() => {
-                // 削除処理後のブラウザバック時のフラッシュメッセージ再表示防止策。削除済みidがセッションにある場合はfalse、ない場合は削除後のデータのidを代入しtrueと評価させる。
-                isDeleted.value = (sessionStorage.getItem('deleteId') ? false : props.deleteId);
+                // 削除処理後のブラウザバック時のフラッシュメッセージ再表示防止策。削除済みidがセッションにある場合はfalse、ない場合はtrueとしてフラッシュメッセージを表示。
+                isDeleted.value = (sessionStorage.getItem('deleteId') ? false : true);
         
                 sessionStorage.setItem('deleteId', props.deleteId);        
         });

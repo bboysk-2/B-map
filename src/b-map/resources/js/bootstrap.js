@@ -10,6 +10,7 @@ window._ = _;
 import axios from 'axios';
 window.axios = axios;
 
+// axiosを使ってリクエストを送る際に、リクエストヘッダーにXMLHttpRequest（Ajax（非同期）リクエスト）であるということを示すヘッダーを付与する
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**

@@ -21,7 +21,8 @@ const logout = () => {
         <div class="flex items-center ml-2">
             <ApplicationLogo class="w-24 h-10 mr-2" />
         </div>
-        <div @click="toggleMenu"   class="flex items-center mr-4">
+
+        <div @click="toggleMenu" class="flex items-center mr-4">
             <img src="/images/hamburge_menu.png" class="w-6 h-6 cursor-pointer" />        
         </div>       
     </header>
@@ -40,30 +41,35 @@ const logout = () => {
                     ログイン
                 </Link>
             </li>
+
             <li>
                 <Link v-if="!$page.props.auth.user" :href="route('register')" class="inline-flex px-4 py-4">
                     <img src="/images/person_icon.png" class="w-5 h-5 mr-2" />
                     会員登録
                 </Link>
             </li>
+
             <li>
                 <Link v-if="$page.props.auth.user" @click="logout" :href="route('logout')" method="post" class="inline-flex px-4 py-4">
                     <img src="/images/logout_icon.png" class="w-5 h-5 mr-2" />
                     ログアウト
                 </Link>
             </li>
+
             <li>
                 <Link :href="route('policy')" class="inline-flex px-4 py-4">
                     <img src="/images/key_icon.png" class="w-5 h-5 mr-2" />
                     プライバシーポリシー
                 </Link>        
             </li>
+
             <li>
                 <Link :href="route('rules')" class="inline-flex px-4 py-4">
                     <img src="/images/note_icon.png" class="w-5 h-5 mr-2" />
                     利用規約
                 </Link>
             </li>
+
             <li>
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_043wa6GU0ZCvxDfg7ENreF-VYAVpwYIOuZsgMhhxYBLL0g/viewform?usp=sf_link" target="_blank" class="inline-flex px-4 py-4">
                     <img src="/images/male_icon.png" class="w-5 h-5 mr-2" />
