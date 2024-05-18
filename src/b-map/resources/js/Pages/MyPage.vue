@@ -58,9 +58,11 @@ const updateUnderline = (tabElement) => {
             <div class="w-20 h-20 rounded-full overflow-hidden flex items-center justify-center ml-4">
                 <img :src="avatarPath" class="object-cover w-full h-full">
             </div>
+            
             <Link :href="route('profile.edit')">
                 <div class="ml-8">
                     <p class="text-xl font-bold">{{ $page.props.auth.user.name }}さん</p>
+
                     <BlueButton class="mt-2 py-1">編集</BlueButton>
                 </div>  
             </Link>   
@@ -69,12 +71,15 @@ const updateUnderline = (tabElement) => {
         <div class="mt-10">
             <div class="relative flex justify-center">
                 <button @click="currentTab = 'posts', selectTab(0)" class="tab"><img src="/images/paper_and_pen_icon.png" class="mx-auto w-6 h-6"></button>
+
                 <div class="underline" :style="underlineStyle"></div>
                 
                 <button @click="currentTab = 'favorites', selectTab(1)" class="tab"><img src="/images/heart_icon.png" class="mx-auto w-6 h-6"></button>
+
                 <div class="underline" :style="underlineStyle"></div>
                 
                 <button @click="currentTab = 'reviews', selectTab(2)" class="tab"><img src="/images/reviews_icon.png" class="mx-auto w-9 h-10"></button>
+
                 <div class="underline" :style="underlineStyle"></div>
   
                 <div class="absolute bottom-0 w-full border-t-2 border-gray-400"></div>
@@ -83,19 +88,25 @@ const updateUnderline = (tabElement) => {
             <div class="mt-3">
                 <div v-show="currentTab === 'posts'" class="content">
                     <p class="ml-4">投稿:{{ posts.length }}件</p>
+
                     <SpotCard :spots="posts" :canEdit="true"/>
+
                     <p v-if="!posts">投稿はありません</p>  
                 </div>
 
                 <div v-show="currentTab === 'favorites'" class="content">
                     <p v-if="favorites.length" class="ml-4">お気に入り:{{ favorites.length }}件</p>
+
                     <p v-else>お気に入りはありません</p>
+
                     <SpotCard :spots="favorites" />   
                 </div>
   
                 <div v-show="currentTab === 'reviews'" class="content">
                     <p v-if="reviews.length" class="ml-4">レビュー:{{ reviews.length }}件</p>
+
                     <p v-else>レビューはありません</p>
+
                     <ReviewCard :reviews="reviews" /> 
                 </div>
             </div>
