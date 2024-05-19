@@ -11,11 +11,11 @@ const props = defineProps({
     canEdit: Boolean,
 });
 
-function reviewCount(index) {
+const reviewCount = (index) => {
     return props.spots[index].reviews.length;
 };
 
-function averageRating(index)  {
+const averageRating = (index) => {
     if (!props.spots[index].reviews.length) return 0;
   
     const totalRating = props.spots[index].reviews.reduce((acc, review) => acc + review.rating, 0);
