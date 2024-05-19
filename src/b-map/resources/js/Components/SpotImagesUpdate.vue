@@ -12,6 +12,7 @@ const emit = defineEmits([
 
 const previewImages = ref([]);
 
+// 既存の画像がある場合、プレビュー画像に追加（edit時）
 if (props.spotImages) {
     props.spotImages.forEach(image => {
         previewImages.value.push(image);
@@ -47,15 +48,20 @@ const removeSpotImage = (index) => {
             <img src="/images/camera_icon.png" class="h-24 w-24">
         </div>
 
-        <input type="file" ref="fileInput" class="hidden" name="spot_images" @change="addSpotImages" accept="image/*" multiple>            
-        <div v-show="previewImages.length === 1" v-for="(image, index) in previewImages" :key="index" class="mx-auto justify-center w-full h-56 relative">
-            <img :src="image" class="object-cover w-full h-full rounded-lg">
-            <button @click="removeSpotImage(index)" class="absolute top-2 right-2 bg-gray-100 h-7 w-7 rounded-full">✖</button>
+        <input type="file" ref="fileInput" class="hidden" name="spot_images" @change="addSpotImages" accept="image/*" multiple>       
+
+        <!-- アップロード画像一枚時のレイアウト -->
+        <div v-show="previewImages.length === 1" class="mx-auto justify-center w-full h-56 relative">
+            <img :src="previewImages[0]" class="object-cover w-full h-full rounded-lg">
+
+            <button @click="removeSpotImage(0)" class="absolute top-2 right-2 bg-gray-100 h-7 w-7 rounded-full">✖</button>
         </div>
 
+        <!-- アップロード画像2枚以上の場合のレイアウト -->
         <div v-show="previewImages.length >= 2" class="grid grid-cols-2 gap-2">
             <div v-for="(image, index) in previewImages" :key="index" class="mx-auto justify-center w-full h-40 relative">
                 <img :src="image" class="object-cover w-full h-full rounded-lg">
+
                 <button @click="removeSpotImage(index)" class="absolute top-2 right-2 bg-gray-100 h-7 w-7 rounded-full">✖</button>
             </div>
         </div>

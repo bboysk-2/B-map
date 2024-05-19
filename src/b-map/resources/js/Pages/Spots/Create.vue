@@ -12,7 +12,6 @@ defineProps({
     error: String,
 });
 
-
 const form = useForm({
     spot_images: [],
     spot_name: '',
@@ -68,6 +67,7 @@ const handleSubmit = async () => {
 
     <Layout :error="error">
         <h1 class="text-xl font-extrabold pl-4">スポット情報</h1>
+
         <div class="my-10">
             <label for="spot_name">スポット名<span class="text-red-500">（必須）</span></label>
             <TextInput
@@ -79,8 +79,10 @@ const handleSubmit = async () => {
                 autofocus
                 autocomplete="spot_name"
             />
+
             <span v-if="errors.spot_name" class="text-red-500">※{{ errors.spot_name }}</span>
         </div>
+
         <div class="my-10">
             <label for="address">住所<span class="text-red-500">（必須）</span></label>
             <TextInput
@@ -91,6 +93,7 @@ const handleSubmit = async () => {
                 required
                 autocomplete="address"
             />
+
             <span v-if="errors.address" class="text-red-500">※{{ errors.address }}</span>
         </div>
 
@@ -111,6 +114,7 @@ const handleSubmit = async () => {
                 <option value="その他">その他</option>
             </select>
         </div>
+
         <div class="my-5">
             <label for="space">広さ（人数）</label>
             <select id="space" class="block w-3/4" v-model="form.space">
@@ -126,6 +130,7 @@ const handleSubmit = async () => {
                 <option value="50~人">50~人</option>
             </select>
         </div>
+
         <div class="my-5">
             <label for="floor_material">床の素材</label>
             <select id="floor_material" class="block w-3/4" v-model="form.floor_material">
@@ -136,6 +141,7 @@ const handleSubmit = async () => {
                 <option value="その他">その他</option>
             </select>
         </div>
+
         <div class="my-5">
             <label>滑り具合</label>
             <div class="flex items-center">
@@ -147,6 +153,7 @@ const handleSubmit = async () => {
                 <label class="ml-1 mr-2">良い</label>
             </div>
         </div>  
+
         <div class="my-5">
             <label>料金</label>
             <div class="flex items-center">
@@ -156,6 +163,7 @@ const handleSubmit = async () => {
                 <label class="ml-1 mr-2">有料</label>                               
             </div>
         </div>
+
         <div class="my-5">
             <label>利用可能な時間帯</label>
             <div class="flex items-center">
@@ -169,6 +177,7 @@ const handleSubmit = async () => {
                 <label class="ml-1 mr-2">不定</label>                               
             </div>
         </div>
+
         <div class="my-5">
             <label>音出し</label>
             <div class="flex items-center">
@@ -178,6 +187,7 @@ const handleSubmit = async () => {
                 <label class="ml-1 mr-2">可</label>                                                
             </div>
         </div>
+
         <div class="my-5">
             <label>予約の有無</label>
             <div class="flex items-center">
@@ -189,12 +199,16 @@ const handleSubmit = async () => {
                 <label class="ml-1 mr-2">一部あり</label>                                                
             </div>
         </div>
+
         <div class="my-5">
             <label for="remarks">備考</label>
             <textarea id="remarks" class="block w-full h-32 mt-1" v-model="form.remarks"></textarea>
         </div>
+
         <div class="border-t-2 border-gray-400 mt-7"></div>
+
         <h3 class="text-lg font-semibold mt-5">スポット画像</h3>
+
         <SpotImageUpdate @update-spot-images="addFormImages" @remove-spot-image="removeFormImage" class="mb-4"/>
             
         <div class="border-t-2 border-gray-400"></div>
