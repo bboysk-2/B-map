@@ -26,7 +26,6 @@ const averageRating = (index) => {
   
     return avg;
 };
-
 </script>
 
 <template>
@@ -36,14 +35,17 @@ const averageRating = (index) => {
                 <div class="bg-white w-full mt-3 mb-5 mx-auto py-2 border border-slate-300 rounded-lg shadow-3xl">
                     <div class="w-full flex items-center justify-center my-2 px-5">
                         <div class="relative w-full h-48 flex flex-col justify-center items-center rounded-lg">
-                            <img :src="spot.spot_images[0]?.image ?? '/images/no_image_show.png'" class="w-full h-full rounded-lg">
+                            <img :src="spot.spot_images[0]?.image ?? '/images/no_image_show.png'" class="object-cover w-full h-full rounded-lg">
+
                             <Favorite v-if="$page.props.auth.user" :spotId="spot.id" :isFavorited="spot.isFavorite" class="absolute bottom-3 right-3"/>
+
                             <SpotCardMenu v-if="canEdit" :spotId="spot.id" /> 
                         </div>
                     </div>
                     
                     <div class="mx-6">
                         <p class="text-xl font-bold truncate">{{ spot.name }}</p>
+
                         <p>{{ spot.address }}</p>
                     </div>
 
@@ -55,10 +57,12 @@ const averageRating = (index) => {
                                 v-if="star <= Math.floor(averageRating(index))"
                                 :icon="['fas', 'star']"
                                 style="color: #FFD43B;" />
+
                             <FontAwesomeIcon
                                 v-else-if="star === Math.ceil(averageRating(index)) && averageRating(index) % 1 !== 0"
                                 :icon="['fas', 'star-half-stroke']"
                                 style="color: #FFD43B;" />
+                                
                             <FontAwesomeIcon
                                 v-else
                                 :icon="['fas', 'star']" 

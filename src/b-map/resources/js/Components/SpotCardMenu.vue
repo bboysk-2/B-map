@@ -38,8 +38,6 @@ const toggleMenu = (e, spotId) => {
     e.preventDefault();
     isMenuOpen[spotId] = !isMenuOpen[spotId];
 };
-
-
 </script>
 
 <template>

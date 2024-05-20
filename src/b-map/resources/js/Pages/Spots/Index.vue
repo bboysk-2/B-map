@@ -24,18 +24,21 @@ const responseSpots = ref(JSON.parse(sessionStorage.getItem('responseSpots') || 
 
 const searchFlag = ref(JSON.parse(sessionStorage.getItem('searchFlag') || false));
 
+watchEffect(() => {
+    sessionStorage.setItem('searchFlag', searchFlag.value);
+    sessionStorage.setItem('searchWord', searchWord.value);
+    // 検索結果をJSON 文字列としてセッションに保存（オブジェクトや配列はそのまま保存すると復元できない）
+    sessionStorage.setItem('responseSpots', JSON.stringify(responseSpots.value));
+});
+
+// コンテンツ投稿後にリダイレクトされた場合は検索結果をクリア
 if (props.success) {
     searchWord.value = '';
     responseSpots.value = [];
     searchFlag.value = false;
 }
 
-watchEffect(() => {
-    sessionStorage.setItem('searchFlag', searchFlag.value);
-    sessionStorage.setItem('searchWord', searchWord.value);
-    sessionStorage.setItem('responseSpots', JSON.stringify(responseSpots.value));
-});
-
+// 検索キーワードからパスを自動生成
 const searchURL = computed(() => {
     return `/api/search/?keyword=${searchWord.value}`;
 });
@@ -45,7 +48,7 @@ const searchSpot = async (url) => {
         const response = await axios.get(url);
         responseSpots.value = response.data;
         searchFlag.value = true;
-        window.scroll({top: 0, behavior: 'auto'});
+        window.scroll({top: 0, behavior: 'auto'}); // 検索後にページトップに瞬時にスクロール
     } catch (error) {
         console.error(error);
     }
@@ -60,24 +63,40 @@ const clearSearch = () => {
 // ---------------これより以下マップ関連の変数・関数---------------
 const apiKey = props.googleMapApiKey;
 
-const map = ref(null);
+let map = null; // マップオブジェクト
 
 const tokyo = {lat: 35.681167, lng: 139.767052};
 
 const searchLocationWord =ref('');
 
-//現在開かれているウインドウオブジェクト追跡用
-let currentOpenInfoWindow = null;
+let currentOpenInfoWindow = null; //現在開かれているウインドウオブジェクト
+
+// Google Maps APIのスクリプトを非同期で読み込む
+const loadGoogleMapsScript = (apiKey) => {
+  return new Promise((resolve, reject) => {
+    if (window.google?.maps) {
+      resolve();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
+    script.async = true;
+    document.head.appendChild(script);
+    script.onload = () => resolve();
+    script.onerror = reject;
+  });
+}
 
 onMounted(async () => {
     try {
         await loadGoogleMapsScript(apiKey);
-
-        map.value = new google.maps.Map(document.getElementById('map'), {
+        // マップの初期化
+        map = new google.maps.Map(document.getElementById('map'), {
         center: tokyo,
         zoom: 12,
-        disableDefaultUI: true,
-        clickableIcons: false,
+        disableDefaultUI: true, // デフォルトのUIコントロールを無効化
+        clickableIcons: false, // アイコンのクリックを無効化
     });
     } catch (error) {
         console.error('Google Maps APIの読み込みに失敗しました。', error);
@@ -88,11 +107,12 @@ onMounted(async () => {
         const lat = parseFloat(spot.latitude);
         const lng = parseFloat(spot.longitude);
 
+        // オプショナルチェーンを用いてspot_imagesプロパティがそのスポットに存在するか確認
         const windowImage = spot.spot_images[0]?.image ?? '/images/no_image_window.png';
 
         const marker = new google.maps.Marker({
             position: { lat: lat, lng: lng },
-            map: map.value,
+            map: map,
             icon: {
                 url: '/images/marker_icon.png',
                 scaledSize: new google.maps.Size(50, 50),}
@@ -102,44 +122,30 @@ onMounted(async () => {
             content:
            `<div class="max-w-32">
                 <img src="${windowImage}" class="w-28 h-20 object-cover rounded-lg border border-slate-300">
+
                 <h3 class="font-bold mt-2 w-full truncate">${spot.name}</h3>
+
                 <a href="/spots/${spot.id}"><span class="underline underline-offset-4">詳細ページへ行く</span></a>
             </div>`,
         });
 
         marker.addListener('click', () => {
             if (currentOpenInfoWindow === null) {
-                infowindow.open(map.value, marker);
+                infowindow.open(map, marker);
                 currentOpenInfoWindow = infowindow;
             } else {
                 currentOpenInfoWindow.close();
-                infowindow.open(map.value, marker);
+                infowindow.open(map, marker);
                 currentOpenInfoWindow = infowindow;
             }
             // ウインドウ外の領域をクリックした時に情報ウィンドウを閉じる
-            google.maps.event.addListener(map.value, 'click', () => {
+            google.maps.event.addListener(map, 'click', () => {
                 infowindow.close();
                 currentOpenInfoWindow = null;
             });
         });
     });
 });
-
-const loadGoogleMapsScript = (apiKey) => {
-  return new Promise((resolve, reject) => {
-    if (window.google && window.google.maps) {
-      resolve();
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
-    script.async = true;
-    document.head.appendChild(script);
-    script.onload = () => resolve(window.google.maps);
-    script.onerror = reject;
-  });
-}
 
 const getCurrentLocation = () => {
     if (navigator.geolocation) {
@@ -148,7 +154,7 @@ const getCurrentLocation = () => {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
             };
-            map.value.setCenter(pos);
+            map.setCenter(pos);
         },        
         () => {
             alert('位置情報の取得に失敗しました。');
@@ -163,7 +169,7 @@ const searchLocation = async () => {
     const response = await axios.get(`/api/geocode/?address=${searchLocationWord.value}`);
     const lat = response.data.latitude;
     const lng = response.data.longitude;
-    map.value.setCenter({ lat, lng });
+    map.setCenter({ lat, lng });
 };
 </script>
 
