@@ -8,9 +8,7 @@ import ReviewSection from '@/Components/ReviewSection.vue';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-
 const props = defineProps({
-    errors: Object,
     success: String,
     error: String,
     spot: Object,
