@@ -33,13 +33,16 @@ const submit = () => {
         <form @submit.prevent="submit">
             <!-- ユーザーが選択した画像ファイルをform.avatarに代入 -->
             <input type="file" name="avatar" @input="form.avatar = $event.target.files[0]" accept="image/*">
+
             <div class="flex items-center justify-center">
                 <div class="w-20 h-20 rounded-full overflow-hidden flex items-center justify-center mt-7 ml-4">
                     <img :src="avatarPath" @load="toggleStatus" class="object-cover w-full h-full">
                 </div>
+
                 <BlueButton type="submit" :disabled="form.processing" class="ml-8 mt-7">画像を更新</BlueButton>         
             </div>                         
         </form>
+        
         <div class="h-10 mt-5">
             <p v-if="showStatus" class="ml-4 text-green-500">{{ status }}</p>    
         </div>            

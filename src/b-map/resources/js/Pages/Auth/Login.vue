@@ -3,8 +3,6 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import Header from '@/Components/Header.vue';
-import FooterMenu from '@/Components/FooterMenu.vue';
 import BlueButton from '@/Components/Button.vue';
 import Layout from '@/Layouts/Layout.vue';
 
@@ -31,19 +29,25 @@ const submit = () => {
 
     <Layout>
         <h1 class="text-xl font-extrabold pl-4 mb-10">ログイン</h1>
+
         <div class="mx-6" >                            
             <a href="social-auth/google">
                 <div class="w-full flex items-center justify-center border border-black bg-white py-1">
                     <img src="/images/google_icon.png" class="h-5 w-5 mx-1">
+
                     <p class="">Googleでログイン</p>                                
                 </div>
             </a>
         </div>
+        
         <div class="flex items-center my-6" >
             <div class="flex-grow border-t border-black"></div>
+
             <span class="mx-4">または</span>
+
             <div class="flex-grow border-t border-black"></div>
         </div>
+
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
@@ -58,8 +62,8 @@ const submit = () => {
                     v-model="form.email"
                     required
                     autofocus
-                    autocomplete="username"
-                />               
+                    autocomplete="username"/>
+
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
@@ -71,22 +75,23 @@ const submit = () => {
                     class="mt-1 block w-full"
                     v-model="form.password"
                     required
-                    autocomplete="current-password"
-                />                
+                    autocomplete="current-password"/>
+
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
+
             <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ml-5"
-                >
-                    パスワードをお忘れですか?
+                v-if="canResetPassword"
+                :href="route('password.request')"
+                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ml-5">
+                パスワードをお忘れですか?
             </Link>
                 
             <div class="flex flex-col items-center justify-center mt-5">
                 <BlueButton class="my-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     ログイン
                 </BlueButton>
+
                 <div class="mt-6 mb-3">
                     <p>会員登録の方は                                   
                         <Link :href="route('register')" class="underline text-sm text-gray-600 hover:text-gray-900">                       

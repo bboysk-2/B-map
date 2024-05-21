@@ -3,8 +3,6 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import Header from '@/Components/Header.vue';
-import FooterMenu from '@/Components/FooterMenu.vue';
 import BlueButton from '@/Components/Button.vue';
 import Layout from '@/Layouts/Layout.vue';
 
@@ -33,13 +31,17 @@ const submit = () => {
             <a href="social-auth/google">
                 <div class="w-full flex items-center justify-center border border-black bg-white py-1">
                     <img src="/images/google_icon.png" class="h-5 w-5 mx-1">
+
                     <p class="">Googleでログイン</p>                                
                 </div>
             </a>
         </div>
+
         <div class="flex items-center my-6" >
             <div class="flex-grow border-t border-black"></div>
+
             <span class="mx-4">または</span>
+
             <div class="flex-grow border-t border-black"></div>
         </div>
 
@@ -53,8 +55,8 @@ const submit = () => {
                     v-model="form.name"
                     required
                     autofocus
-                    autocomplete="name"
-                />
+                    autocomplete="name"/>
+
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
             
@@ -66,8 +68,8 @@ const submit = () => {
                     class="mt-1 block w-full"
                     v-model="form.email"
                     required
-                    autocomplete="username"
-                />
+                    autocomplete="username"/>
+
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
@@ -79,8 +81,8 @@ const submit = () => {
                     class="mt-1 block w-full"
                     v-model="form.password"
                     required
-                    autocomplete="new-password"
-                />            
+                    autocomplete="new-password"/>
+
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
@@ -92,15 +94,16 @@ const submit = () => {
                     class="mt-1 block w-full"
                     v-model="form.password_confirmation"
                     required
-                    autocomplete="new-password"
-                />            
+                    autocomplete="new-password"/>
+
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
             </div>
 
             <div class="flex flex-col items-center justify-center mt-5">
                 <BlueButton class="my-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     登録する
-                </BlueButton> 
+                </BlueButton>
+
                 <div class="mt-6 mb-3">
                     <p>ログインページは                                   
                         <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900">                       

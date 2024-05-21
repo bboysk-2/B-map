@@ -35,6 +35,7 @@ const submitReview = () => {
     <Layout :error="error">
         <div class="flex items-center">
             <img src="/images/marker_icon.png" class="h-12 w-8 mx-1 pt-4">
+            
             <h1 class="text-xl font-bold pt-4">{{ spot.spot_name }}</h1>   
         </div>
           
@@ -43,6 +44,8 @@ const submitReview = () => {
         <h2 class="text-lg font-bold ml-7 my-6">レビューする</h2>
         
         <p class="ml-7">評価</p>
+        
+        <!-- デフォルトのフォーム送信動作を無効化してカスタムメソッドを実行させる -->
         <form @submit.prevent="submitReview">
             <div class="ml-6 mt-2">
                 <span v-for="n in 5" :key="n" class="star cursor-pointer text-gray-500 text-4xl ml-1" @click="rating = n" :class="{ 'active': n <= rating }">&#9733;</span>
