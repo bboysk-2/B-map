@@ -35,7 +35,7 @@ const closeModal = () => {
 };
 
 const toggleMenu = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // メニューを開いたとき親コンポーネントにイベントが伝播しページ遷移しないようにする
     isMenuOpen[props.reviewId] = !isMenuOpen[props.reviewId];
 };
 </script>

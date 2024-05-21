@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\GeocodeController;
 use App\Http\Controllers\SpotSearchController;
 use App\Http\Controllers\SpotController;
+use App\Http\Controllers\FavoriteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +24,9 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    Route::post('/favorite/{spot}', [SpotController::class, 'addFavorite']);
-    Route::delete('/favorite/{spot}', [SpotController::class, 'removeFavorite']);
+    Route::post('/favorite/{spot}', [FavoriteController::class, 'addFavorite']);
+
+    Route::delete('/favorite/{spot}', [FavoriteController::class, 'removeFavorite']);
 });
 
 

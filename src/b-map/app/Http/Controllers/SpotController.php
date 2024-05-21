@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateSpotRequest;
 use App\Models\Spot;
 use App\Models\User;
 use App\Models\SpotImage;
-use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
@@ -27,6 +26,7 @@ class SpotController extends Controller
         $paginateSpots = Spot::with('spotImages', 'reviews')->orderBy('created_at', 'desc')
         ->paginate(10, ['id', 'name', 'address', 'latitude', 'longitude']);
 
+        // ログインユーザーがお気に入り登録しているか判定するプロパティを追加して新しいコレクションを返す
         if (auth()->user()) {
             $paginateSpots->map(function ($spot) {
                 $spot->isFavorite = $spot->favorites->contains(function ($favorite) {
@@ -95,10 +95,10 @@ class SpotController extends Controller
             ]);
     
             if ($request->hasFile('spot_images')) {
-                $disk = Storage::disk('s3');
+                $disk = Storage::disk('s3'); //S3のディスクドライバーを取得
     
                 foreach ($request->file('spot_images') as $image) {
-                    $fileName = $disk->putFile('spot_image', $image);
+                    $fileName = $disk->putFile('spot_image', $image); //ファイルをS3のspot_imageディレクトリに保存し、保存されたファイルのパスを返す。
                     $url = $disk->url($fileName);
                     SpotImage::create([
                         'spot_id' => $spot->id, // SpotとSpotImageモデルインスタンスを関連付ける
@@ -174,12 +174,12 @@ class SpotController extends Controller
     public function update(UpdateSpotRequest $request, Spot $spot)
     {
         if ($spot->address !== $request->address) {
-            $exists = Spot::where('address', $request->address
-        )->exists();
+                $exists = Spot::where('address', $request->address
+            )->exists();
 
-        if ($exists) {
-            return back()->with('error', '同じ住所が既に登録されています。');
-        }
+            if ($exists) {
+                return back()->with('error', '同じ住所が既に登録されています。');
+            }
         }
 
         DB::beginTransaction(); 
@@ -206,6 +206,7 @@ class SpotController extends Controller
             if ($request->deleted_images) {
                 $disk = Storage::disk('s3');
     
+                // 削除された画像データのURL一つ一つからファイル名を取得し、S3から削除
                 foreach ($request->deleted_images as $deletedImage) {
                     SpotImage::where('id', $deletedImage["id"])->delete();
                     $currentFileName = basename($deletedImage["image"]);
@@ -214,6 +215,7 @@ class SpotController extends Controller
             }
     
             if ($request->hasFile('spot_images')) {
+                // 上記の処理でドライバーを取得している場合は再取得しない
                 if (!$request->deleted_images) {
                     $disk = Storage::disk('s3');
                 }
@@ -266,20 +268,5 @@ class SpotController extends Controller
             log::error($e->getMessage());
             return back()->with('error', 'スポットの削除に失敗しました。');
         }
-    }
-    
-    public function addFavorite(Request $request, Spot $spot)
-    {
-        Favorite::create([
-            'user_id' => $request->user()->id,
-            'spot_id' => $spot->id,
-        ]);
-    }
-
-    public function removeFavorite(Request $request, Spot $spot)
-    {
-        Favorite::where('spot_id', $spot->id)
-        ->where('user_id', $request->user()->id)
-        ->delete();
     }
 }

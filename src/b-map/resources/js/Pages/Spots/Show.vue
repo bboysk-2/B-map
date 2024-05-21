@@ -41,6 +41,7 @@ const reviewCount = computed(() => props.spot.reviews.length);
 const averageRating = computed(() => {
     if (!props.spot.reviews.length) return 0;
   
+    // レーティングの合計値を割り出し、平均を算出
     const totalRating = props.spot.reviews.reduce((acc, review) => acc + review.rating, 0);
     let avg = totalRating / props.spot.reviews.length;
   
@@ -54,10 +55,27 @@ const averageRating = computed(() => {
 
 const apiKey = props.googleMapApiKey;
 
-const map = ref(null);
+let map = null;
 
 const lat = parseFloat(props.spot.latitude);
+
 const lng = parseFloat(props.spot.longitude);
+
+const loadGoogleMapsScript = (apiKey) => {
+    return new Promise((resolve, reject) => {
+        if (window.google && window.google.maps) {
+          resolve();
+          return;
+        }
+  
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
+        script.async = true;
+        document.head.appendChild(script);
+        script.onload = () => resolve();
+        script.onerror = reject;
+    });
+}
 
 onMounted(async () => {
     // 緯度経度が取得できない場合早期リターン
@@ -68,41 +86,24 @@ onMounted(async () => {
     try {
         await loadGoogleMapsScript(apiKey);
 
-        map.value = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: lat, lng: lng },
-        zoom: 15,
-        disableDefaultUI: true,
-        clickableIcons: false,
-    });
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: lat, lng: lng },
+            zoom: 15,
+            disableDefaultUI: true,
+            clickableIcons: false,
+        });
     } catch (error) {
         console.error('Google Maps APIの読み込みに失敗しました。', error);
     };
 
-    const marker = new google.maps.Marker({
+    new google.maps.Marker({
         position: { lat: lat, lng: lng },
-        map: map.value,
+        map: map,
         icon: {
             url: '/images/marker_icon.png',
             scaledSize: new google.maps.Size(50, 50),}
     });
 });
-
-function loadGoogleMapsScript(apiKey) {
-  return new Promise((resolve, reject) => {
-    if (window.google && window.google.maps) {
-      resolve();
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
-    script.async = true;
-    document.head.appendChild(script);
-    script.onload = () => resolve(window.google.maps);
-    script.onerror = reject;
-  });
-}
-
 </script>
 
 <template>
@@ -116,6 +117,7 @@ function loadGoogleMapsScript(apiKey) {
 
             <div class="ml-auto text-sm min-w-20">
                 <p>最終更新日</p>
+                
                 <p>{{ dayjs(spot.updated_at).format('YYYY/MM/DD') }}</p>
             </div>
         </div>
@@ -123,21 +125,23 @@ function loadGoogleMapsScript(apiKey) {
         <div class="flex items-center mt-1">
             <p class="ml-3 mr-1">{{ averageRating }}</p>
 
+            <!-- 平均値を小数点以下で切り捨てた値が現在のstar以上の場合星アイコン -->
             <template v-for="star in 5" :key="star">
                 <FontAwesomeIcon
-                    v-if="star <= Math.floor(averageRating)"
-                    :icon="['fas', 'star']"
-                    style="color: #FFD43B;" />
+                v-if="star <= Math.floor(averageRating)"
+                :icon="['fas', 'star']"
+                style="color: #FFD43B;" />
+
+                <!-- 平均値を小数点以下で切り上げた値が現在のstarと等しく、かつ平均値が整数でない場合に半分の星アイコン -->
+                <FontAwesomeIcon
+                v-else-if="star === Math.ceil(averageRating) && averageRating % 1 !== 0"
+                :icon="['fas', 'star-half-stroke']"
+                style="color: #FFD43B;" />
 
                 <FontAwesomeIcon
-                    v-else-if="star === Math.ceil(averageRating) && averageRating % 1 !== 0"
-                    :icon="['fas', 'star-half-stroke']"
-                    style="color: #FFD43B;" />
-
-                <FontAwesomeIcon
-                    v-else
-                    :icon="['fas', 'star']" 
-                    style="color: #a3a3a3;" />
+                v-else
+                :icon="['fas', 'star']" 
+                style="color: #a3a3a3;" />
             </template>
 
             <p class="ml-1">({{ reviewCount }}件のレビュー)</p>
@@ -147,6 +151,7 @@ function loadGoogleMapsScript(apiKey) {
         
         <div class="relative">
             <SlideImages :spot="spot" />
+
             <Favorite v-if="$page.props.auth.user" :spotId="spot.id" :isFavorited="spot.isFavorite" class="absolute bottom-3 left-3" />
         </div>
         
@@ -214,6 +219,7 @@ function loadGoogleMapsScript(apiKey) {
         <div v-if="spot.latitude && spot.longitude" class="h-64 w-hull">
             <div id="map" class="h-full w-full"></div>
         </div>
+
         <div v-else class="h-64 w-full">
             <img src="/images/no_map.png" class="object-cover h-full w-hull">
         </div>
