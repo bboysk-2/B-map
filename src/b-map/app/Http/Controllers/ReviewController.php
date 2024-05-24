@@ -85,10 +85,6 @@ class ReviewController extends Controller
 
     public function destroy(Request $request, Review $review) {
         try {
-            if ($review->user_id !== $request->user()->id) {
-                return back()->with('error', '他のユーザーのレビューは削除できません');
-            }
-
             $review->delete();
 
             return redirect()->route('mypage')->with('deleteId', $review->id);
