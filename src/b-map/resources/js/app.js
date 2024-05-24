@@ -2,7 +2,7 @@ import './bootstrap';
 import '../css/app.css';
 
 import { createApp, h } from 'vue';
-import { createInertiaApp } from '@inertiajs/vue3';
+import { createInertiaApp, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -29,7 +29,7 @@ createInertiaApp({
 });
 
 // Inertia.js のナビゲーションイベントをリッスン
-Inertia.on('navigate', (event) => {
+router.on('navigate', (event) => {
     gtag('config', 'G-EP7P7L9HQ9', {
         page_path: event.detail.page.url,
     });
