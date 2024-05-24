@@ -27,3 +27,10 @@ createInertiaApp({
         color: '#4B5563',
     },
 });
+
+// Inertia.js のナビゲーションイベントをリッスン
+Inertia.on('navigate', (event) => {
+    gtag('config', 'G-EP7P7L9HQ9', {
+        page_path: event.detail.page.url,
+    });
+});
