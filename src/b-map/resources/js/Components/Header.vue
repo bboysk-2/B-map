@@ -50,7 +50,7 @@ const logout = () => {
             </li>
 
             <li>
-                <Link v-if="$page.props.auth.user" @click="logout" :href="route('logout')" method="post" class="inline-flex px-4 py-4">
+                <Link v-if="$page.props.auth.user" @click="logout" :href="route('logout')" method="post" as="button" class="inline-flex px-4 py-4">
                     <img src="/images/logout_icon.png" class="w-5 h-5 mr-2" />
                     ログアウト
                 </Link>

@@ -6,9 +6,10 @@ defineProps({ links: Array })
 </script>
 
 <template>
+    <!-- 「<<前」と「次>>」と「1」以外のリンクが存在する場合（2ページ以上リンクがある場合）のみページネーションリンクを表示 -->
     <div v-if="links.length > 3">
         <div class="flex flex-wrap -mb-1">
-            <template v-for="link in links" :key="index">
+            <template v-for="link in links" :key="link.id">
                 <div v-if="link.url === null" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-gray-400 border border-slate-200 rounded"
                 v-html="link.label" />
 

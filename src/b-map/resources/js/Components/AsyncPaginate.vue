@@ -11,6 +11,7 @@ const sendURL = (url) => {
 </script>
 
 <template>
+    <!-- 「<<前」と「次>>」と「1」以外のリンクが存在する場合（2ページ以上リンクがある場合）のみページネーションリンクを表示 -->
     <div v-if="links.length > 3">
         <div class="flex flex-wrap mt-5">
             <template v-for="link in links" :key="index">
