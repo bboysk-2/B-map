@@ -28,7 +28,7 @@ createInertiaApp({
     },
 });
 
-// Inertia.js のナビゲーションイベントをリッスン
+// ナビゲーションイベントをリッスン
 router.on('navigate', (event) => {
     gtag('config', 'G-EP7P7L9HQ9', {
         page_path: event.detail.page.url,
