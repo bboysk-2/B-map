@@ -57,7 +57,7 @@ const submitReview = () => {
 
                 <p v-if="errors.comment" class="text-red-500 mt-2 m-auto">※{{ errors.comment }}</p>
 
-                <BlueButton type="submit" class="w-40 m-auto mt-14">レビューを更新</BlueButton>
+                <BlueButton type="submit" class="m-auto mt-14">レビューを更新</BlueButton>
                 
                 <p v-if="errors.spot_id" class="text-red-500 mt-5 m-auto">※{{ errors.spot_id }}</p>
             </div>
