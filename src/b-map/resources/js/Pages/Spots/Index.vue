@@ -122,9 +122,7 @@ onMounted(async () => {
             content:
            `<div class="max-w-32">
                 <img src="${windowImage}" class="w-28 h-20 object-cover rounded-lg border border-slate-300">
-
                 <h3 class="font-bold mt-2 w-full truncate">${spot.name}</h3>
-
                 <a href="/spots/${spot.id}"><span class="underline underline-offset-4">詳細ページへ行く</span></a>
             </div>`,
         });
