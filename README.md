@@ -70,6 +70,8 @@
 ### バックエンド
 - Laravel 9.52.16
 - PHP 8.0.30
+
+### ライブラリ
 - Laravel Breeze
 
 ### データベース
@@ -79,9 +81,15 @@
 - Vue.js 3.2.41
 - Tailwindcss 3.2.1
 
-### インフラ
-- Docker(開発環境)
-- Heroku(デプロイ)
+### 開発環境
+- Docker
+  - nginx:latest
+  - php:8.0-fpm
+  - mysql:8
+  - phpmyadmin/phpmyadmin:5
+
+### デプロイ
+- Heroku
 
 ### 外部ストレージ
 - AWS S3
